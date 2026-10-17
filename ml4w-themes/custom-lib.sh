@@ -13,7 +13,7 @@ cc_backup() {
         return
     fi
     rm -rf "$bk"; mkdir -p "$bk"
-    for f in waybar-theme.sh dock-theme rofi-border.rasi rofi-border-radius.rasi launcher; do
+    for f in waybar-theme.sh dock-theme rofi-border.rasi rofi-border-radius.rasi launcher rofi-theme.rasi rofi-theme-name; do
         cp "$cfg/ml4w/settings/$f" "$bk/" 2>/dev/null
     done
     cp "$cfg/swaync/style.css" "$bk/swaync-style.css" 2>/dev/null
@@ -25,9 +25,10 @@ cc_backup() {
 cc_restore() {
     local cfg="$HOME/.config" bk="$cc_state/pre-$1" f
     [ -d "$bk" ] || { echo ":: nothing to restore"; return 0; }
-    for f in waybar-theme.sh dock-theme rofi-border.rasi rofi-border-radius.rasi launcher; do
+    for f in waybar-theme.sh dock-theme rofi-border.rasi rofi-border-radius.rasi launcher rofi-theme.rasi rofi-theme-name; do
         cp "$bk/$f" "$cfg/ml4w/settings/" 2>/dev/null
     done
+    [ -f "$bk/rofi-theme.rasi" ] || ml4w-rofi default >/dev/null
     cp "$bk/decoration.lua" "$bk/window.lua" "$cfg/hypr/conf/" 2>/dev/null
     cp "$bk/swaync-style.css" "$cfg/swaync/style.css" 2>/dev/null
     cp "$bk/wlogout-style.css" "$cfg/wlogout/style.css" 2>/dev/null
@@ -57,6 +58,9 @@ cc_apply() {
     echo 'rofi' > "$cfg/ml4w/settings/launcher"
     echo '* { border-width: 1px; }' > "$cfg/ml4w/settings/rofi-border.rasi"
     echo "* { border-radius: $radius; }" > "$cfg/ml4w/settings/rofi-border-radius.rasi"
+
+    # Launcher style: same name as the theme (rofi-themes/<name>.rasi)
+    ml4w-rofi "$name" --no-open >/dev/null
 
     echo -e "local name = \"$name.lua\"\nload_variant(name,\"windows\")" > "$cfg/hypr/conf/window.lua"
     echo -e "local name = \"$name.lua\"\nload_variant(name,\"decorations\")" > "$cfg/hypr/conf/decoration.lua"

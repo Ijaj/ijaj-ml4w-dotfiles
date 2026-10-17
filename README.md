@@ -15,7 +15,7 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 | `ml4w-themes/retro/`, `paper/`, `pastel/`, `brutal/` (+ `-restore`) | **Retro**: terminal look, square, mono, accent text. **Paper**: calm, low contrast, soft shadows, serif clock. **Pastel**: floating pill bar, big radius, tinted chips. **Brutal**: thick borders, hard offset shadows, bold mono. All colors follow the wallpaper. |
 | `waybar-themes/custom-{underline,gradient,bottom,mac,blocks,tmux,sidebar,aurora}` | 8 more Waybar themes, each with 3 accent variants (primary, secondary, tertiary). |
 | `swaync-themes/{accentbar,bubble,compact,outline,solid,terminal,gradient,elevated,banner,ghost}` | Notification toast styles. Switch with `ml4w-toast`. |
-| `rofi-themes/` | Launcher layouts: spotlight, grid, fullscreen, sidebar, bar, terminal, brutal, pastel, minimal. Switch with `ml4w-rofi`. |
+| `rofi-themes/` | Launcher styles: one per global theme (softglass, flat, cyber, retro, paper, pastel, brutal) plus spotlight, grid, fullscreen, sidebar, bar, terminal, minimal. Switch with `ml4w-rofi`. |
 | `prompts/` | 15 oh-my-posh prompt themes (palette from the wallpaper). Switch with `ml4w-prompt` (alias `prompt`). |
 | `ml4w-themes/custom-lib.sh` | Shared apply/backup/restore code for the custom global themes |
 | `swaync-themes/`, `wlogout-themes/`, `dock-themes/` | Soft Glass parts. swaync and wlogout import ML4W's glass theme and only override shape and transparency. |
@@ -84,3 +84,5 @@ Prompt colors follow the wallpaper: `ml4w-prompt-refresh.path` watches the palet
 Terminal (kitty) colors already follow the wallpaper through Matugen's `colors-matugen.conf`.
 
 Rofi: `ml4w-custom-sync` makes sure `~/.config/rofi/config.rasi` imports `~/.config/ml4w/settings/rofi-theme.rasi`, which `ml4w-rofi` writes. Rofi has no alpha-on-theme-color syntax and no `height: auto`, so styles use solid theme colors.
+
+Applying a global theme also sets the rofi style of the same name, and its `-restore` entry puts back the previous one. `rofitheme` still works afterwards for a one-off change.

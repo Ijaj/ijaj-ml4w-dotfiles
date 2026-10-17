@@ -1,0 +1,9 @@
+/* Flat: solid, thin lines, small corners, accent only on the selected text */
+window { location: center; anchor: center; width: 40em; border: 1px; border-color: @outline-variant; border-radius: 6px; background-color: @surface; }
+mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; padding: 0; background-image: none; background-color: transparent; }
+inputbar { margin: 0; padding: 0.2em 0.8em; border-radius: 0; border: 0 0 1px 0; border-color: @outline-variant; background-color: transparent; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { padding: 0.9em 0.2em 0 0.3em; text-color: @on-surface-variant; }
+listview { lines: 8; columns: 1; spacing: 0; padding: 0.3em; fixed-height: false; background-color: transparent; }
+element { padding: 0.5em 0.8em; border-radius: 4px; }
+element selected.normal { background-color: @surface-container-high; text-color: @primary; border-radius: 4px; }
+element-icon { size: 1.8em; }

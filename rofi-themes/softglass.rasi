@@ -1,0 +1,9 @@
+/* Soft Glass: frosted floating card, big radius, soft selection */
+window { location: center; anchor: center; width: 42em; border: 1px; border-color: @outline-variant; border-radius: 24px; background-color: @background; }
+mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; padding: 0.6em; background-image: none; background-color: transparent; }
+inputbar { margin: 0 0 0.6em 0; padding: 0.2em 0.8em; border-radius: 999px; background-color: @surface; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { padding: 0.9em 0.2em 0 0.3em; text-color: @primary; }
+listview { lines: 7; columns: 1; spacing: 0.3em; padding: 0; fixed-height: false; background-color: transparent; }
+element { padding: 0.6em 0.9em; border-radius: 16px; }
+element selected.normal { background-color: @surface; text-color: @on-surface; border-radius: 16px; }
+element-icon { size: 2.4em; }

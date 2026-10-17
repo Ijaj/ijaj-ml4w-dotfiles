@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Switch the rofi launcher style. Colors always come from the wallpaper.
 #   ml4w-rofi               pick one (rofi menu, or fzf with --tty)
-#   ml4w-rofi <name>        apply a style and open the launcher to show it
+#   ml4w-rofi <name> [--no-open]  apply a style and open the launcher to show it
 #   ml4w-rofi default       back to the ML4W look
 #   ml4w-rofi list | current
 repo="$(dirname "$(dirname "$(readlink -f "$0")")")"
@@ -31,6 +31,6 @@ default)
     [ -f "$dir/$1.rasi" ] || { echo "unknown style: $1" >&2; exit 1; }
     cp "$dir/$1.rasi" "$out"; echo "$1" >"$state"
     echo ":: rofi style: $1"
-    pkill rofi; setsid -f rofi -show drun -replace -i >/dev/null 2>&1
+    [ "$2" = --no-open ] || { pkill rofi; setsid -f rofi -show drun -replace -i >/dev/null 2>&1; }
     ;;
 esac
