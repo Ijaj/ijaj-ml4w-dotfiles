@@ -1,0 +1,22 @@
+/* Cyber logout: dark background, outlined buttons that glow on focus */
+@import "../glass/style.css";
+
+window { background: alpha(@background, 0.88); background-image: none; }
+button {
+    border-radius: 10px;
+    border: 1px solid alpha(@primary, 0.5);
+    background-color: alpha(@surface, 0.8);
+    color: @primary;
+    min-width: 120px;
+    min-height: 120px;
+    margin: 10px;
+    box-shadow: none;
+}
+button:focus { background-color: alpha(@primary, 0.12); border-color: @primary; box-shadow: 0 0 12px alpha(@primary, 0.7); }
+button:hover {
+    background-color: @primary;
+    color: @on_primary;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 16px @primary;
+}

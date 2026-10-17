@@ -1,0 +1,36 @@
+/* Cyber notifications: dark cards with a glowing accent outline (accent follows the wallpaper) */
+@import "../glass/notifications.css";
+@import "../glass/control_center.css";
+
+.floating-notifications.background .notification-row .notification-background .notification,
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    background: @surface;
+    border: 1px solid @primary;
+    border-radius: 10px;
+    box-shadow: 0 0 8px alpha(@primary, 0.5);
+}
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    border: 1px solid @error;
+    box-shadow: 0 0 8px alpha(@error, 0.6);
+}
+.control-center {
+    background: alpha(@surface, 0.96);
+    border: 1px solid @primary;
+    border-radius: 12px;
+    box-shadow: 0 0 10px alpha(@primary, 0.45);
+}
+.widget-buttons-grid button { border: 1px solid alpha(@primary, 0.5); border-radius: 8px; }
+.widget-buttons-grid button:hover { border-radius: 8px; box-shadow: 0 0 6px alpha(@primary, 0.6); }
+.widget-buttons-grid button.toggle:checked { border-radius: 8px; box-shadow: 0 0 8px alpha(@primary, 0.7); }
+.widget-volume, .widget-backlight { border-radius: 8px; background: @surface_container; border: 1px solid alpha(@primary, 0.35); }
+
+/* Cards listed inside the control center */
+.control-center .notification-row .notification-background .notification,
+.control-center .notification-row .notification-background .notification.critical {
+    background: @surface_container;
+    background-image: none;
+    border: 1px solid alpha(@primary, 0.5);
+    border-radius: 8px;
+    box-shadow: none;
+}
+.control-center .notification-row .notification-background .notification.critical { border-color: @error; }

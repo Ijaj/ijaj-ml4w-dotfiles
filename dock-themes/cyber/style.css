@@ -1,0 +1,10 @@
+/* Cyber dock: glowing outlined capsule */
+@import url("../../colors.css");
+
+window { padding: 6px; margin: 8px; background: alpha(@background, 0.7); border: 1px solid @primary; border-radius: 12px; box-shadow: 0 0 8px alpha(@primary, 0.5); }
+#box { padding: 4px; }
+#active { border-bottom: solid 2px; border-color: @primary; }
+button, image { background: none; border-style: none; box-shadow: none; color: @primary; }
+button { padding: 4px; margin: 0 3px; font-size: 12px; }
+button:hover { background-color: alpha(@primary, 0.15); border-radius: 8px; }
+button:focus { box-shadow: none; }
