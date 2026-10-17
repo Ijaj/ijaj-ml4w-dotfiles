@@ -160,16 +160,109 @@ fn hex_tokens(s: &str) -> Vec<(usize, usize)> {
     }
     out
 }
+/// like hex_tokens, plus #rgb shorthand (only used inside color strings)
+fn hex_tokens_short(s: &str) -> Vec<(usize, usize)> {
+    let mut out = hex_tokens(s);
+    let b = s.as_bytes();
+    let mut i = 0;
+    while i + 4 <= b.len() {
+        let covered = out.iter().any(|&(x, y)| i >= x && i < y);
+        if !covered && b[i] == b'#' && b[i + 1..i + 4].iter().all(u8::is_ascii_hexdigit)
+            && !b.get(i + 4).is_some_and(|c| c.is_ascii_alphanumeric())
+        {
+            out.push((i, i + 4));
+            i += 4;
+        } else {
+            i += 1;
+        }
+    }
+    out.sort();
+    out
+}
+fn norm_hex(h: &str) -> String {
+    expand3(h).unwrap_or_else(|| h.to_lowercase()).to_lowercase()
+}
+/// hex tokens that are not inside an inline <...> color tag
+fn hex_outside_tags(s: &str) -> Vec<(usize, usize)> {
+    let tags = tag_specs(s);
+    hex_tokens(s).into_iter().filter(|&(a, _)| !tags.iter().any(|&(x, y)| a >= x && a < y)).collect()
+}
 fn replace_hex(s: &str, f: &mut dyn FnMut(&str) -> String) -> String {
     let mut out = String::with_capacity(s.len());
     let mut last = 0;
-    for (a, b) in hex_tokens(s) {
+    for (a, b) in hex_tokens_short(s) {
+        out.push_str(&s[last..a]);
+        out.push_str(&f(&norm_hex(&s[a..b])));
+        last = b;
+    }
+    out.push_str(&s[last..]);
+    out
+}
+/// replace_hex for strings that are not color keys: only #rrggbb outside inline tags
+fn replace_hex_plain(s: &str, f: &mut dyn FnMut(&str) -> String) -> String {
+    let mut out = String::with_capacity(s.len());
+    let mut last = 0;
+    for (a, b) in hex_outside_tags(s) {
         out.push_str(&s[last..a]);
         out.push_str(&f(&s[a..b].to_lowercase()));
         last = b;
     }
     out.push_str(&s[last..]);
     out
+}
+
+/// strings of a dict that are not color keys (templates with inline <fg,bg> color tags, ...)
+fn other_strings(m: &mut Map<String, Value>) -> Vec<&mut String> {
+    let mut out = Vec::new();
+    for (k, v) in m.iter_mut() {
+        if COLOR_KEYS.contains(&k.as_str()) || TEMPLATE_KEYS.contains(&k.as_str()) { continue }
+        match v {
+            Value::String(s) => out.push(s),
+            Value::Array(a) => for x in a { if let Value::String(s) = x { out.push(s) } },
+            _ => {}
+        }
+    }
+    out
+}
+/// inline color tags like <#ffffff,p:name>: byte ranges of the spec between < and >
+fn tag_specs(s: &str) -> Vec<(usize, usize)> {
+    let b = s.as_bytes();
+    let mut out = Vec::new();
+    let mut i = 0;
+    while i < b.len() {
+        if b[i] == b'<' {
+            if let Some(j) = s[i + 1..].find('>') {
+                let spec = &s[i + 1..i + 1 + j];
+                if !spec.is_empty() && (spec.contains('#') || spec.contains("p:"))
+                    && spec.bytes().all(|c| c.is_ascii_alphanumeric() || b"#_:,-".contains(&c))
+                {
+                    out.push((i + 1, i + 1 + j));
+                    i += j + 1;
+                }
+            }
+        }
+        i += 1;
+    }
+    out
+}
+/// rebuild s with every tag spec passed through f(part, is_foreground, has_background)
+fn map_tags(s: &str, f: &mut dyn FnMut(&str, bool, bool) -> String) -> String {
+    let mut out = String::with_capacity(s.len());
+    let mut last = 0;
+    for (a, b) in tag_specs(s) {
+        out.push_str(&s[last..a]);
+        let parts: Vec<&str> = s[a..b].split(',').collect();
+        let mapped: Vec<String> = parts.iter().enumerate().map(|(i, p)| f(p, i == 0, parts.len() > 1)).collect();
+        out.push_str(&mapped.join(","));
+        last = b;
+    }
+    out.push_str(&s[last..]);
+    out
+}
+/// "#abc" -> "#aabbcc"
+fn expand3(s: &str) -> Option<String> {
+    (s.len() == 4 && s.starts_with('#') && s[1..].bytes().all(|b| b.is_ascii_hexdigit()))
+        .then(|| format!("#{0}{0}{1}{1}{2}{2}", &s[1..2], &s[2..3], &s[3..4]))
 }
 
 // ---- mapping --------------------------------------------------------------------------------
@@ -223,11 +316,30 @@ fn main() {
     let mut theme: Value = serde_json::from_str(&text).unwrap_or_else(|e| die(&format!("{theme_path}: {e}")));
 
     // 1. inline the theme's own palette refs, then drop its palette
-    let own: BTreeMap<String, String> = theme
+    let raw: BTreeMap<String, String> = theme
         .get("palette")
         .and_then(Value::as_object)
-        .map(|o| o.iter().filter_map(|(k, v)| v.as_str().filter(|s| s.starts_with('#')).map(|s| (k.clone(), s.to_string()))).collect())
+        .map(|o| o.iter().filter_map(|(k, v)| v.as_str().map(|s| (k.clone(), s.to_string()))).collect())
         .unwrap_or_default();
+    // palette entries may alias each other ("closer": "p:os")
+    let own: BTreeMap<String, String> = raw
+        .keys()
+        .filter_map(|k| {
+            let mut v = raw[k].as_str();
+            for _ in 0..8 {
+                match v.strip_prefix("p:") {
+                    Some(n) => v = raw.get(n)?.as_str(),
+                    None => break,
+                }
+            }
+            let v = if v.len() == 4 && v.starts_with('#') && v[1..].bytes().all(|b| b.is_ascii_hexdigit()) {
+                format!("#{0}{0}{1}{1}{2}{2}", &v[1..2], &v[2..3], &v[3..4])
+            } else {
+                v.to_string()
+            };
+            (v.len() == 7 && v.starts_with('#')).then(|| (k.clone(), v))
+        })
+        .collect();
     if let Value::Object(m) = &mut theme {
         m.remove("palette");
         m.remove("palettes");
@@ -250,6 +362,30 @@ fn main() {
             out.push_str(rest);
             *s = out;
         }
+        for (_, s) in color_strings(m) {
+            if let Some(h) = expand3(s.trim()) { *s = h }
+        }
+        for s in other_strings(m) {
+            if s.contains("p:") {
+                let mut out = String::new();
+                let mut rest = s.as_str();
+                while let Some(i) = rest.find("p:") {
+                    let tail = &rest[i + 2..];
+                    let end = tail.find(|c: char| !(c.is_alphanumeric() || c == '_' || c == '-')).unwrap_or(tail.len());
+                    let prev_alpha = rest[..i].chars().last().is_some_and(|c| c.is_alphanumeric());
+                    match own.get(&tail[..end]) {
+                        Some(h) if !prev_alpha && end > 0 => { out.push_str(&rest[..i]); out.push_str(h) }
+                        _ => out.push_str(&rest[..i + 2 + end]),
+                    }
+                    rest = &tail[end..];
+                }
+                out.push_str(rest);
+                *s = out;
+            }
+            if s.contains('<') {
+                *s = map_tags(s, &mut |p, _, _| expand3(p).unwrap_or_else(|| p.to_string()));
+            }
+        }
     });
 
     // 2. collect: usage counts and fg/bg groups per dict
@@ -258,11 +394,32 @@ fn main() {
     visit_dicts(&mut theme, &mut |m| {
         let (mut fg, mut bg) = (Vec::new(), Vec::new());
         for (is_fg, s) in color_strings(m) {
-            for (a, b) in hex_tokens(s) {
-                let h = s[a..b].to_lowercase();
+            for (a, b) in hex_tokens_short(s) {
+                let h = norm_hex(&s[a..b]);
                 *use_count.entry(h.clone()).or_default() += 1;
                 let list = if is_fg { &mut fg } else { &mut bg };
                 if !list.contains(&h) { list.push(h) }
+            }
+        }
+        for s in other_strings(m) {
+            for (a, b) in hex_outside_tags(s) {
+                let h = s[a..b].to_lowercase();
+                *use_count.entry(h.clone()).or_default() += 1;
+                groups.push((vec![h], bg.clone()));
+            }
+            for (a, b) in tag_specs(s) {
+                let parts: Vec<&str> = s[a..b].split(',').collect();
+                let (mut tfg, mut tbg) = (Vec::new(), Vec::new());
+                for (i, p) in parts.iter().enumerate() {
+                    if hex_tokens(p).len() == 1 && p.len() == 7 {
+                        let h = p.to_lowercase();
+                        *use_count.entry(h.clone()).or_default() += 1;
+                        (if i == 0 { &mut tfg } else { &mut tbg }).push(h);
+                    }
+                }
+                // a tag without its own background sits on the segment background
+                if parts.len() == 1 || tbg.is_empty() { tbg = bg.clone() }
+                if !tfg.is_empty() || !tbg.is_empty() { groups.push((tfg, tbg)) }
             }
         }
         if !fg.is_empty() || !bg.is_empty() { groups.push((fg, bg)) }
@@ -276,14 +433,30 @@ fn main() {
     let (_, _, he) = lch(&get("error", "#ffb4ab"));
     let cp = (cprim.max(ctert) * 1.25).clamp(0.05, 0.22);
 
-    let mut neutral_of: BTreeMap<String, String> = BTreeMap::new();
+    let mut neutral_of: BTreeMap<(String, bool), String> = BTreeMap::new();
     let ladder: Vec<(f64, &str)> = NEUTRALS.iter().filter_map(|n| pal.get(*n).map(|h| (lch(h).0, *n))).collect();
     let chromatic: Vec<&String> = use_count.keys().filter(|h| lch(h).1 >= 0.04).collect();
-    for h in use_count.keys() {
-        if lch(h).1 < 0.04 && !ladder.is_empty() {
-            let l = lch(h).0;
-            let n = ladder.iter().min_by(|a, b| (a.0 - l).abs().total_cmp(&(b.0 - l).abs())).unwrap().1;
-            neutral_of.insert(h.clone(), n.to_string());
+    let term_bg = get("background", "#000000");
+    for (fg, bg) in &groups {
+        for (list, is_fg) in [(fg, true), (bg, false)] {
+            for h in list {
+                // a grey used as text on the bare terminal background must stay readable on it
+                let unbound = is_fg && bg.is_empty();
+                if lch(h).1 >= 0.04 || ladder.is_empty() || neutral_of.contains_key(&(h.clone(), unbound)) { continue }
+                let l = lch(h).0;
+                let by_l = |a: &&(f64, &str), b: &&(f64, &str)| (a.0 - l).abs().total_cmp(&(b.0 - l).abs());
+                let role = if unbound {
+                    let target = contrast(h, &term_bg).clamp(3.5, 4.5);
+                    let ok: Vec<&(f64, &str)> = ladder.iter().filter(|r| contrast(&pal[r.1], &term_bg) >= target).collect();
+                    match ok.iter().copied().min_by(by_l) {
+                        Some(r) => r.1,
+                        None => ladder.iter().max_by(|a, b| contrast(&pal[a.1], &term_bg).total_cmp(&contrast(&pal[b.1], &term_bg))).unwrap().1,
+                    }
+                } else {
+                    ladder.iter().min_by(by_l).unwrap().1
+                };
+                neutral_of.insert((h.clone(), unbound), role.to_string());
+            }
         }
     }
     // dominant hue: most used chromatic color, averaged with its 30-degree neighbours
@@ -311,7 +484,7 @@ fn main() {
     for (fg, bg) in &groups {
         for (list, is_fg) in [(fg, true), (bg, false)] {
             for h in list {
-                if neutral_of.contains_key(h) || slot_of.contains_key(&(h.clone(), is_fg)) { continue }
+                if lch(h).1 < 0.04 || slot_of.contains_key(&(h.clone(), is_fg)) { continue }
                 let (l, c, hue) = lch(h);
                 let red = hue_dist(hue, 29.0) < 22.0 && c > 0.08;
                 let (anchor, dh) = if red { (Anchor::Error, signed_hue(29.0, hue) * spread) } else { (Anchor::Primary, signed_hue(h0, hue) * spread) };
@@ -320,8 +493,8 @@ fn main() {
             }
         }
     }
-    let make_ref = |h: &String, is_fg: bool| -> Ref {
-        match neutral_of.get(h) {
+    let make_ref = |h: &String, is_fg: bool, unbound: bool| -> Ref {
+        match neutral_of.get(&(h.clone(), is_fg && unbound)) {
             Some(n) => Ref::Role(n.clone()),
             None => Ref::Slot(slot_of[&(h.clone(), is_fg)]),
         }
@@ -335,7 +508,7 @@ fn main() {
             for b in bgs {
                 let bhex = b.cloned().unwrap_or_else(|| ctx.hex(&Ref::Bg));
                 let target = contrast(f, &bhex).clamp(3.5, 4.5);
-                pairs.push(Pair { fg: make_ref(f, true), bg: b.map(|b| make_ref(b, false)).unwrap_or(Ref::Bg), target });
+                pairs.push(Pair { fg: make_ref(f, true, bg.is_empty()), bg: b.map(|b| make_ref(b, false, false)).unwrap_or(Ref::Bg), target });
             }
         }
     }
@@ -368,17 +541,38 @@ fn main() {
     }
 
     // 6. rewrite colors as palette refs
+    let lookup = |h: &str, is_fg: bool, unbound: bool| -> Option<String> {
+        let h = h.to_string();
+        if let Some(n) = neutral_of.get(&(h.clone(), is_fg && unbound)).or_else(|| neutral_of.get(&(h.clone(), false))).or_else(|| neutral_of.get(&(h.clone(), true))) {
+            return Some(format!("p:{n}"));
+        }
+        let i = slot_of.get(&(h.clone(), is_fg)).or_else(|| slot_of.get(&(h, !is_fg)))?;
+        Some(format!("p:{}", ctx.slots[*i].name))
+    };
     visit_dicts(&mut theme, &mut |m| {
-        for (is_fg, s) in color_strings(m) {
-            *s = replace_hex(s, &mut |h| match neutral_of.get(h) {
-                Some(n) => format!("p:{n}"),
-                None => format!("p:{}", ctx.slots[slot_of[&(h.to_string(), is_fg)]].name),
+        let mut strings = color_strings(m);
+        let unbound = !strings.iter().any(|(is_fg, s)| !*is_fg && !hex_tokens_short(s).is_empty());
+        for (is_fg, s) in strings.iter_mut() {
+            let is_fg = *is_fg;
+            **s = replace_hex(s, &mut |h| lookup(h, is_fg, unbound).unwrap_or_else(|| h.to_string()));
+        }
+        drop(strings);
+        for s in other_strings(m) {
+            if s.contains('#') { *s = replace_hex_plain(s, &mut |h| lookup(h, true, unbound).unwrap_or_else(|| h.to_string())) }
+            if !s.contains('<') { continue }
+            *s = map_tags(s, &mut |p, first, has_bg| {
+                if p.len() != 7 || hex_tokens(p).len() != 1 { return p.to_string() }
+                lookup(&p.to_lowercase(), first, unbound && !has_bg).unwrap_or_else(|| p.to_string())
             });
         }
     });
     let mut palette = Map::new();
     for (k, v) in &pal { palette.insert(k.clone(), Value::String(v.clone())); }
     for s in &ctx.slots { palette.insert(s.name.clone(), Value::String(ctx.slot_hex(s))); }
+    // own entries that are not plain hex (named ANSI colors, ...) stay, so refs to them keep working
+    for (k, v) in &raw {
+        if !own.contains_key(k) && !palette.contains_key(k) { palette.insert(k.clone(), Value::String(v.clone())); }
+    }
     if let Value::Object(m) = &mut theme { m.insert("palette".into(), Value::Object(palette)); }
 
     if args.iter().any(|a| a == "--stats") {
@@ -388,4 +582,45 @@ fn main() {
         );
     }
     println!("{}", serde_json::to_string_pretty(&theme).unwrap());
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn finds_six_digit_hex_only() {
+        assert_eq!(hex_tokens("a #aabbcc b #aabbccd c").len(), 1);
+        assert_eq!(hex_tokens_short("{{ if x }}#fff{{ end }}").len(), 1);
+        assert_eq!(norm_hex("#FfA"), "#ffffaa");
+    }
+
+    #[test]
+    fn tag_specs_ignore_plain_tags() {
+        let s = "<b>x</b> <#fff,p:surface>y</> <p:a>z</>";
+        assert_eq!(tag_specs(s).len(), 2);
+    }
+
+    #[test]
+    fn oklch_round_trips_srgb() {
+        for h in ["#ff8000", "#3366ff", "#121318", "#ffffff", "#000000", "#b9c3ff"] {
+            let (l, c, hue) = lch(h);
+            let back = parse_hex(&to_hex(l, c, hue));
+            let orig = parse_hex(h);
+            assert!(back.iter().zip(orig).all(|(a, b)| (a - b).abs() < 0.01), "{h}");
+        }
+    }
+
+    #[test]
+    fn out_of_gamut_chroma_is_reduced() {
+        let h = to_hex(0.9, 0.4, 200.0);
+        assert_eq!(h.len(), 7);
+        assert!(lch(&h).1 < 0.4);
+    }
+
+    #[test]
+    fn contrast_extremes() {
+        assert!((contrast("#000000", "#ffffff") - 21.0).abs() < 0.01);
+        assert!((contrast("#777777", "#777777") - 1.0).abs() < 1e-9);
+    }
 }
