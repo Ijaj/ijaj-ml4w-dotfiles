@@ -1,0 +1,62 @@
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+export PATH="$PATH:/home/ijaj/.lmstudio/bin"
+
+ccc() {
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "❌ Not a git repository"
+    return 1
+  fi
+
+  if [[ -z "$1" ]]; then
+    echo "❌ Commit message cannot be empty"
+    return 1
+  fi
+
+  git add .
+  git commit -m "$1" && git push
+}
+
+startup() {
+  local frontend="$HOME/webdev/edusupplements/frontend"
+  local backend="$HOME/webdev/edusupplements/backend"
+
+  # Frontend
+  setsid nohup kitty --title "Frontend Dev" --directory "$frontend" \
+      zsh -ic "npm run dev; exec zsh" >/dev/null 2>&1 < /dev/null &
+
+  setsid nohup kitty --title "Frontend Nvim" --directory "$frontend" \
+      zsh -ic "nvim .; exec zsh" >/dev/null 2>&1 < /dev/null &
+
+  # Backend
+  setsid nohup kitty --title "Backend Dev" --directory "$backend" \
+      zsh -ic "npm run dev; exec zsh" >/dev/null 2>&1 < /dev/null &
+
+  setsid nohup kitty --title "Backend Nvim" --directory "$backend" \
+      zsh -ic "nvim .; exec zsh" >/dev/null 2>&1 < /dev/null &
+}
+
+
+nn() {
+  setsid kitty --directory "$PWD" >/dev/null 2>&1 &
+}
+
+# eval "$(direnv hook bash)"
+
+# Secrets (NGROK_AUTHTOKEN, ...) live in ~/.zsh_secrets, never in git
+[ -f ~/.zsh_secrets ] && source ~/.zsh_secrets
+
+ng() {
+  local port="$1"
+
+  if [[ -z "$port" ]]; then
+    echo "Usage: ng <port>"
+    return 1
+  fi
+
+  # ngrok http "$port" --url https://default.internal
+  ngrok http "$port" --url https://obliging-cricket-viable.ngrok-free.app
+}
+

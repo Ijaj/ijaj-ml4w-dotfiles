@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Re-applies this repo's customizations on top of the ML4W dotfiles.
+# Safe to run any time: only touches what is missing or outdated.
+repo="$(dirname "$(dirname "$(readlink -f "$0")")")"
+backups="$HOME/.local/state/ml4w-custom/backups"
+
+# Waybar themes: copied, because the ML4W themeswitcher ignores symlinked dirs
+themes="$HOME/.config/waybar/themes"
+changed=0
+if [ -d "$themes" ]; then
+    for theme in "$repo"/waybar-themes/*/; do
+        name=$(basename "$theme")
+        if ! diff -rq "$theme" "$themes/$name" >/dev/null 2>&1; then
+            rm -rf "${themes:?}/$name"
+            cp -r "$theme" "$themes/$name"
+            changed=1
+            echo ":: synced waybar theme $name"
+        fi
+    done
+fi
+
+# zshrc: symlinked, so edits in ~/.config/zshrc go straight into the repo.
+# Files in zshrc/custom/ override the ML4W file with the same name.
+if [ -d "$HOME/.config/zshrc" ]; then
+    find "$repo/zshrc" -type f | while read -r src; do
+        dst="$HOME/.config/zshrc/${src#"$repo/zshrc/"}"
+        [ "$(readlink "$dst")" = "$src" ] && continue
+        mkdir -p "$(dirname "$dst")"
+        if [ -e "$dst" ] || [ -L "$dst" ]; then
+            # Backups go outside ~/.config/zshrc, since ML4W sources every file there
+            mkdir -p "$backups"
+            mv "$dst" "$backups/$(basename "$dst").$(date +%Y%m%d%H%M%S)"
+        fi
+        ln -s "$src" "$dst"
+        echo ":: linked $dst"
+    done
+fi
+
+# Restart waybar if the active theme is one of ours and something changed
+if [ "$changed" = 1 ] && pgrep -x waybar >/dev/null; then
+    current=$(cat "$HOME/.config/ml4w/settings/waybar-theme.sh" 2>/dev/null)
+    name=$(echo "$current" | cut -d';' -f1 | tr -d '/')
+    if [ -n "$name" ] && [ -d "$repo/waybar-themes/$name" ]; then
+        setsid -f "$HOME/.config/waybar/launch.sh" >/dev/null 2>&1
+    fi
+fi
+exit 0

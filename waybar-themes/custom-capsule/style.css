@@ -1,0 +1,26 @@
+/* Capsule: one compact centered pill, dock-like */
+* { font-family: "Fira Sans Semibold", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", sans-serif; font-size: 13px; border: none; border-radius: 0; min-height: 0; }
+window#waybar { background: transparent; }
+tooltip { background: @cap_bg; border: 1px solid @cap_border; border-radius: 12px; }
+tooltip label { color: @cap_fg; }
+
+.modules-center {
+    background: @cap_bg; border: 1px solid @cap_border; border-radius: 20px;
+    padding: 2px 6px; box-shadow: 0 3px 8px alpha(@shadow, 0.4);
+}
+label.module, #tray { color: @cap_fg; padding: 2px 8px; border-radius: 14px; transition: all 0.2s ease; }
+label.module:hover { background: alpha(@cap_accent, 0.18); }
+#hardware label, #tools label { padding: 2px 6px; }
+
+#custom-appmenu { background: @cap_accent; color: @cap_on_accent; margin: 2px 4px 2px 0; padding: 2px 11px; }
+#workspaces { margin: 0 4px; }
+#workspaces button { color: alpha(@cap_fg, 0.5); padding: 0 4px; margin: 3px 1px; border-radius: 10px; min-width: 14px; transition: all 0.25s ease; }
+#workspaces button.active { background: @cap_accent; color: @cap_on_accent; min-width: 30px; }
+#workspaces button:hover { background: alpha(@cap_accent, 0.25); color: @cap_fg; }
+/* clock divides workspaces from status icons */
+#clock { font-weight: bold; margin: 0 6px; border-left: 1px solid @cap_border; border-right: 1px solid @cap_border; border-radius: 0; padding: 0 14px; }
+#custom-exit { color: @error; margin-left: 2px; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#custom-updates.yellow { color: @tertiary; }
+#custom-updates.red, #battery.critical:not(.charging) { color: @error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@cap_fg, 0.45); }

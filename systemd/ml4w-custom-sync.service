@@ -1,0 +1,9 @@
+[Unit]
+Description=Re-apply custom waybar themes and zshrc files on top of ML4W
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/ml4w-custom-sync
+
+[Install]
+WantedBy=default.target

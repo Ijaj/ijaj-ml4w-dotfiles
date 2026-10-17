@@ -1,0 +1,5 @@
+@define-color cap_bg alpha(@surface_container, 0.92);
+@define-color cap_border alpha(@outline_variant, 0.9);
+@define-color cap_fg @on_surface;
+@define-color cap_accent @primary;
+@define-color cap_on_accent @on_primary;

@@ -1,0 +1,3 @@
+@define-color island_bg alpha(@surface, 0.55);
+@define-color island_hover alpha(@surface_container_high, 0.75);
+@define-color island_border alpha(@primary, 0.35);

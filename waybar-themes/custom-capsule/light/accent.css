@@ -1,0 +1,5 @@
+@define-color cap_bg alpha(@inverse_surface, 0.94);
+@define-color cap_border alpha(@inverse_on_surface, 0.25);
+@define-color cap_fg @inverse_on_surface;
+@define-color cap_accent @inverse_primary;
+@define-color cap_on_accent @inverse_surface;

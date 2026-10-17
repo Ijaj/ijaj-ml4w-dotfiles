@@ -1,0 +1,5 @@
+@import '../../../../../.config/waybar/colors.css';
+@import '../style.css';
+
+window#waybar { background: alpha(@surface_container_lowest, 0.96); border-bottom: 2px solid @primary; }
+#clock { color: @primary; }

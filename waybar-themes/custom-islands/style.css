@@ -1,0 +1,32 @@
+/* Islands: every module floats as its own rounded chip */
+* { font-family: "Fira Sans Semibold", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", sans-serif; font-size: 13px; border: none; border-radius: 0; min-height: 0; }
+window#waybar { background: transparent; }
+tooltip { background: @surface_container; border: 1px solid @outline_variant; border-radius: 12px; }
+tooltip label { color: @on_surface; }
+
+.modules-left > widget > *, .modules-center > widget > *, .modules-right > widget > * {
+    background: @island_bg; color: @on_surface;
+    border: 1px solid @island_border; border-radius: 14px;
+    padding: 3px 12px; margin: 2px 3px;
+    box-shadow: 0 2px 4px alpha(@shadow, 0.35);
+    transition: all 0.2s ease;
+}
+.modules-left > widget > *:hover, .modules-right > widget > *:hover { background: @island_hover; }
+window#waybar.empty #window { background: transparent; border-color: transparent; box-shadow: none; }
+
+#workspaces { padding: 3px 4px; }
+#workspaces button { color: @on_surface_variant; padding: 0 6px; margin: 0 2px; border-radius: 10px; min-width: 18px; transition: all 0.25s ease; }
+#workspaces button.active { background: @primary; color: @on_primary; min-width: 34px; }
+#workspaces button:hover { background: alpha(@primary, 0.25); color: @on_surface; }
+
+#custom-appmenu { background: @primary; color: @on_primary; padding: 3px 14px 3px 12px; }
+#clock { background: @primary_container; color: @on_primary_container; font-weight: bold; }
+#custom-exit { background: @error_container; color: @on_error_container; padding: 3px 14px 3px 12px; }
+#custom-notification { font-family: "Material Icons"; font-size: 16px; }
+#hardware label, #tools label { padding: 0 5px; }
+#custom-updates.yellow { background: @secondary_container; color: @on_secondary_container; }
+#custom-updates.red { background: @error; color: @on_error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: @outline; }
+#battery.warning:not(.charging) { background: @tertiary_container; color: @on_tertiary_container; }
+#battery.critical:not(.charging) { background: @error; color: @on_error; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; }

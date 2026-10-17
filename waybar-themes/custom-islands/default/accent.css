@@ -1,0 +1,3 @@
+@define-color island_bg @surface_container;
+@define-color island_hover @surface_container_high;
+@define-color island_border @outline_variant;

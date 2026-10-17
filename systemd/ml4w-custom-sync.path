@@ -1,0 +1,11 @@
+[Unit]
+Description=Re-apply customizations when an ML4W update replaces its folders
+
+[Path]
+PathChanged=%h/.config/waybar/themes
+PathChanged=%h/.config/zshrc
+PathChanged=%h/.config/zshrc/custom
+Unit=ml4w-custom-sync.service
+
+[Install]
+WantedBy=default.target
