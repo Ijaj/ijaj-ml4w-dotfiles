@@ -1,0 +1,10 @@
+/* paper dock */
+@import url("../../colors.css");
+
+window { padding: 6px; margin: 8px; background: @surface_container_low; border: 1px solid alpha(@on_surface, 0.12); border-radius: 14px; box-shadow: 0 2px 10px alpha(black, 0.25); }
+#box { padding: 4px; }
+#active { border-bottom: solid 2px; border-color: @primary; }
+button, image { background: none; border-style: none; box-shadow: none; color: @on_surface; }
+button { padding: 4px; margin: 0 3px; font-size: 12px; }
+button:hover { background-color: alpha(@primary, 0.2); color: @primary; border-radius: 10px; }
+button:focus { box-shadow: none; }

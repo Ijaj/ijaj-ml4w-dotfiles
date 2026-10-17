@@ -1,0 +1,10 @@
+/* pastel dock */
+@import url("../../colors.css");
+
+window { padding: 6px; margin: 8px; background: alpha(@surface_container, 0.92); border: none; border-radius: 20px; box-shadow: 0 4px 14px alpha(black, 0.25); }
+#box { padding: 4px; }
+#active { border-bottom: solid 2px; border-color: @primary; }
+button, image { background: none; border-style: none; box-shadow: none; color: @on_surface; }
+button { padding: 4px; margin: 0 3px; font-size: 12px; }
+button:hover { background-color: @primary_container; color: @on_primary_container; border-radius: 14px; }
+button:focus { box-shadow: none; }

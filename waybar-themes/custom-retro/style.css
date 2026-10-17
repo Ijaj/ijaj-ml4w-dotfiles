@@ -1,0 +1,18 @@
+/* Retro: terminal look. Monospace, square, accent text on a dark bar, bracketed workspaces. */
+* { font-family: "FiraCode Nerd Font Mono", "Font Awesome 7 Free", "Font Awesome 6 Free", FontAwesome, "Material Icons", monospace; font-size: 13px; border: none; border-radius: 0; min-height: 0; box-shadow: none; }
+window#waybar { background: @background; border-bottom: 2px solid @primary; }
+tooltip { background: @background; border: 2px solid @primary; border-radius: 0; }
+tooltip label { color: @primary; }
+
+label.module, #tray, #hardware, #tools { color: @primary; background: transparent; padding: 0 10px; margin: 0; }
+label.module:hover { background: @primary; color: @background; }
+#hardware label, #tools label { padding: 0 6px; }
+#custom-appmenu { background: @primary; color: @background; padding: 0 12px; font-weight: bold; }
+#workspaces button { color: @primary; background: transparent; padding: 0 8px; margin: 0; }
+#workspaces button.active { background: @primary; color: @background; font-weight: bold; }
+#workspaces button:hover { background: alpha(@primary, 0.25); }
+#window { color: @on_surface_variant; }
+#clock { color: @tertiary; }
+#custom-exit, #custom-updates.red, #battery.critical:not(.charging) { color: @error; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@primary, 0.4); }

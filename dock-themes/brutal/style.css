@@ -1,0 +1,10 @@
+/* brutal dock */
+@import url("../../colors.css");
+
+window { padding: 6px; margin: 8px; background: @surface; border: 3px solid @on_surface; border-radius: 0px; box-shadow: 5px 5px 0 @on_surface; }
+#box { padding: 4px; }
+#active { border-bottom: solid 2px; border-color: @primary; }
+button, image { background: none; border-style: none; box-shadow: none; color: @on_surface; }
+button { padding: 4px; margin: 0 3px; font-size: 12px; }
+button:hover { background-color: @primary; color: @on_primary; border-radius: 0px; }
+button:focus { box-shadow: none; }

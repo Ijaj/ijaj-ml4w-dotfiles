@@ -1,0 +1,22 @@
+/* pastel logout */
+@import "../glass/style.css";
+
+window { background: alpha(@surface, 0.85); background-image: none; }
+button {
+    border-radius: 20px;
+    border: none;
+    background-color: @secondary_container;
+    color: @on_secondary_container;
+    min-width: 120px;
+    min-height: 120px;
+    margin: 10px;
+    box-shadow: 0 4px 14px alpha(black, 0.25);
+}
+button:focus { background-color: @primary_container; color: @on_primary_container; }
+button:hover {
+    background-color: @primary_container;
+    color: @on_primary_container;
+    margin: 10px;
+    border-radius: 20px;
+    box-shadow: 0 4px 14px alpha(black, 0.25);
+}

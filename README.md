@@ -12,6 +12,7 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 | `ml4w-themes/softglass-restore/` | Undoes Soft Glass, back to whatever was set before |
 | `ml4w-themes/flat/`, `flat-restore/` | **Flat**: solid and minimal. No blur or shadows, 6px corners, thin 1px lines, muted text with the accent only on the active workspace. |
 | `ml4w-themes/cyber/`, `cyber-restore/` | **Cyber**: neon glow. Glowing accent outlines on bar, notifications, logout, dock and window shadow/borders. Accent follows the wallpaper. |
+| `ml4w-themes/retro/`, `paper/`, `pastel/`, `brutal/` (+ `-restore`) | **Retro**: terminal look, square, mono, accent text. **Paper**: calm, low contrast, soft shadows, serif clock. **Pastel**: floating pill bar, big radius, tinted chips. **Brutal**: thick borders, hard offset shadows, bold mono. All colors follow the wallpaper. |
 | `ml4w-themes/custom-lib.sh` | Shared apply/backup/restore code for the custom global themes |
 | `swaync-themes/`, `wlogout-themes/`, `dock-themes/` | Soft Glass parts. swaync and wlogout import ML4W's glass theme and only override shape and transparency. |
 | `hypr-decorations/`, `hypr-windows/` | Window look for each theme (Lua config) |
@@ -35,9 +36,9 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 
 Keep the repo at `~/ijaj-ml4w-dotfiles` (or re-run `./install.sh` after moving it), since files are linked from it.
 
-## Global themes (Soft Glass, Flat, Cyber)
+## Global themes (Soft Glass, Flat, Cyber, Retro, Paper, Pastel, Brutal)
 
-Open the ML4W theme picker with `CTRL+ALT+T` and choose `softglass`, `flat` or `cyber`. To go back, choose the matching `-restore` entry.
+Open the ML4W theme picker with `CTRL+ALT+T` and choose `softglass`, `flat`, `cyber`, `retro`, `paper`, `pastel` or `brutal`. To go back, choose the matching `-restore` entry.
 (`SUPER+CTRL+T` is a different picker: it only lists Waybar themes.)
 The settings from before are saved to `~/.local/state/ml4w-custom/pre-<theme>/` when you apply a theme. Re-applying a theme that is already active keeps that backup.
 
