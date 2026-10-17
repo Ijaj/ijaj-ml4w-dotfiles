@@ -45,8 +45,7 @@ nn() {
 
 # eval "$(direnv hook bash)"
 
-# Secrets (NGROK_AUTHTOKEN, ...) live in ~/.zsh_secrets, never in git
-[ -f ~/.zsh_secrets ] && source ~/.zsh_secrets
+export NGROK_AUTHTOKEN=2jyt5Yf0RHpFoZpBCdfHoavujeO_6Y9AogiQ6KHimbaAYpyGW
 
 ng() {
   local port="$1"

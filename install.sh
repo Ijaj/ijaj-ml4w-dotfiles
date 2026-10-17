@@ -13,12 +13,6 @@ mkdir -p "$HOME/.local/bin" "$HOME/.config/systemd/user"
 ln -sf "$repo/bin/ml4w-custom-sync" "$HOME/.local/bin/ml4w-custom-sync"
 cp "$repo"/systemd/ml4w-custom-sync.* "$HOME/.config/systemd/user/"
 
-if [ ! -f "$HOME/.zsh_secrets" ]; then
-    cp "$repo/secrets.example" "$HOME/.zsh_secrets"
-    chmod 600 "$HOME/.zsh_secrets"
-    echo ":: created ~/.zsh_secrets from template, fill in your tokens"
-fi
-
 systemctl --user daemon-reload
 systemctl --user enable --now ml4w-custom-sync.path
 systemctl --user enable ml4w-custom-sync.service

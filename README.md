@@ -24,11 +24,7 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
    cd ~/ijaj-ml4w-dotfiles
    ./install.sh
    ```
-3. Put your secrets in `~/.zsh_secrets` (created from `secrets.example`):
-   ```sh
-   export NGROK_AUTHTOKEN=...
-   ```
-4. Pick a Waybar theme with `SUPER+CTRL+T` and open a new terminal.
+3. Pick a Waybar theme with `SUPER+CTRL+T` and open a new terminal.
 
 Keep the repo at `~/ijaj-ml4w-dotfiles` (or re-run `./install.sh` after moving it), since files are linked from it.
 
@@ -45,7 +41,6 @@ Keep the repo at `~/ijaj-ml4w-dotfiles` (or re-run `./install.sh` after moving i
 - Waybar themes are **copied** into `~/.config/waybar/themes/`, because the ML4W theme switcher ignores symlinked folders.
 - zsh files are **symlinked** into `~/.config/zshrc/`. Files that were already there get moved to `~/.local/state/ml4w-custom/backups/`.
 - `ml4w-custom-sync.path` watches the ML4W folders. When an update replaces them, the sync runs again within a second.
-- Secrets never go in this repo (it's public). `~/.zsh_secrets` is sourced by `26-functions`.
 
 ## Notes
 
