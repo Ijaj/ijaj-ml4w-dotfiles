@@ -86,3 +86,8 @@ Terminal (kitty) colors already follow the wallpaper through Matugen's `colors-m
 Rofi: `ml4w-custom-sync` makes sure `~/.config/rofi/config.rasi` imports `~/.config/ml4w/settings/rofi-theme.rasi`, which `ml4w-rofi` writes. Rofi has no alpha-on-theme-color syntax and no `height: auto`, so styles use solid theme colors.
 
 Applying a global theme also sets the rofi style of the same name, and its `-restore` entry puts back the previous one. `rofitheme` still works afterwards for a one-off change.
+
+## Moving the bar to any edge
+
+`ml4w-waybar-side` (alias for the menu: run it with no arguments) puts every Waybar theme on `top`, `bottom`, `left` or `right`; `default` removes it. It uses ML4W's own `config-custom` / `style-custom.css` hooks, so no ML4W file is edited. Left/right drop the wide modules (window title, quicklinks, hardware/tools groups, bluetooth, updates) and show a stacked clock. Edge borders and chip spacing are flipped automatically, but themes drawn for a horizontal bar can look a bit tight vertically.
+If you change a module toggle in the ML4W settings app, the sync unit regenerates the overrides (the bar restarts once).

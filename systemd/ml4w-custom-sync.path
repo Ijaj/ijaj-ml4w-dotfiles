@@ -11,6 +11,13 @@ PathChanged=%h/.config/ml4w/themes
 PathChanged=%h/.config/hypr/conf/decorations
 PathChanged=%h/.config/hypr/conf/windows
 PathChanged=%h/.config/zshrc/custom
+# ML4W settings that edit the waybar config (generated side overrides copy it)
+PathChanged=%h/.config/ml4w/settings/waybar_appmenu.sh
+PathChanged=%h/.config/ml4w/settings/waybar_taskbar.sh
+PathChanged=%h/.config/ml4w/settings/waybar_quicklinks.sh
+PathChanged=%h/.config/ml4w/settings/waybar_window.sh
+PathChanged=%h/.config/ml4w/settings/waybar_network.sh
+PathChanged=%h/.config/ml4w/settings/waybar_systray.sh
 Unit=ml4w-custom-sync.service
 
 [Install]

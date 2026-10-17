@@ -23,7 +23,7 @@ for entry in \
     for item in "$repo/$from"/*; do
         [ -e "$item" ] || continue
         name=$(basename "$item")
-        if ! diff -rq "$item" "$HOME/$to/$name" >/dev/null 2>&1; then
+        if ! diff -rq -x config-custom -x style-custom.css -x style-side.css "$item" "$HOME/$to/$name" >/dev/null 2>&1; then
             rm -rf "${HOME:?}/$to/$name"
             cp -r "$item" "$HOME/$to/$name"
             changed=1
@@ -63,6 +63,11 @@ rofi_style="$HOME/.config/ml4w/settings/rofi-theme.rasi"
 if [ -f "$HOME/.config/rofi/config.rasi" ] && ! grep -q 'rofi-theme.rasi' "$HOME/.config/rofi/config.rasi"; then
     printf '\n/* ---- Custom launcher style (ml4w-rofi) ---- */\n@import "~/.config/ml4w/settings/rofi-theme.rasi"\n' >> "$HOME/.config/rofi/config.rasi"
     echo ":: rofi config now imports rofi-theme.rasi"
+fi
+
+# Waybar side override (ml4w-waybar-side): rebuild for new/updated themes
+if command -v ml4w-waybar-side >/dev/null && [ "$(ml4w-waybar-side refresh)" = changed ]; then
+    waybar_changed=1
 fi
 
 # Prompt: rebuild the active prompt (palette may have changed)
