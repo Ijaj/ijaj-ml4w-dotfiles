@@ -65,6 +65,20 @@ if [ -f "$HOME/.config/rofi/config.rasi" ] && ! grep -q 'rofi-theme.rasi' "$HOME
     echo ":: rofi config now imports rofi-theme.rasi"
 fi
 
+# Hyprland keybindings for the pickers: linked, and required from custom.lua
+hypr="$HOME/.config/hypr"
+if [ -d "$hypr" ]; then
+    link="$hypr/ml4w-custom-binds.lua"
+    if [ "$(readlink "$link")" != "$repo/hypr-custom/ml4w-custom-binds.lua" ]; then
+        ln -sf "$repo/hypr-custom/ml4w-custom-binds.lua" "$link"
+        echo ":: linked ml4w-custom-binds.lua"
+    fi
+    grep -qs 'ml4w-custom-binds' "$hypr/custom.lua" || {
+        printf 'require("ml4w-custom-binds")\n' >> "$hypr/custom.lua"
+        echo ":: custom.lua now loads ml4w-custom-binds"
+    }
+fi
+
 # Waybar side override (ml4w-waybar-side): rebuild for new/updated themes
 if command -v ml4w-waybar-side >/dev/null && [ "$(ml4w-waybar-side refresh)" = changed ]; then
     waybar_changed=1

@@ -77,6 +77,7 @@ Known limit: blur behind swaync notification popups does not show on this setup,
 | `toast` | Pick a notification popup style (rofi menu, or fzf in a terminal). `toast <name>`, `toast list`, `toast test`. |
 | `rofitheme` | Pick a launcher style; it opens the launcher to show it. `rofitheme default` goes back to ML4W's look. |
 | `SUPER+CTRL+T` | Waybar themes. `CTRL+ALT+T`: global themes. |
+| `SUPER+CTRL+SHIFT+P` / `N` / `R` | Prompt theme (opens a kitty with fzf) / toast style / rofi style. Defined in `hypr-custom/`. |
 
 (`prompt`, `toast` and `rofitheme` are aliases for `ml4w-prompt`, `ml4w-toast`, `ml4w-rofi`.)
 
