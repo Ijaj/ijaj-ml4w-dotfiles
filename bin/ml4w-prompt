@@ -27,13 +27,22 @@ file_of() {
     [ -f "$f" ] && echo "$f"
 }
 
-# render a theme to stdout: palette themes get the wallpaper palette merged in
+# render a theme to stdout: palette themes get the wallpaper palette merged in,
+# stock and edm115 themes are re-colored by promptmap (tools/promptmap)
 render() {
     local f
     f=$(file_of "$1") || return 1
     case "$1" in
-    shipped:*) cat "$f" ;;
-    edm115) jq -s '.[0] + .[1]' "$f" "$conf/colors.json" ;;
+    # fixed-color themes: promptmap swaps every hex for a wallpaper-derived palette ref
+    shipped:* | edm115)
+        if command -v promptmap >/dev/null; then
+            promptmap "$f" --palette "$colors"
+        elif [ "$1" = edm115 ]; then
+            jq -s '.[0] + .[1]' "$f" "$conf/colors.json"
+        else
+            cat "$f"
+        fi
+        ;;
     *) jq -s '.[0] + .[1]' "$f" <(palette) ;;
     esac
 }

@@ -17,6 +17,7 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 | `swaync-themes/{accentbar,bubble,compact,outline,solid,terminal,gradient,elevated,banner,ghost}` | Notification toast styles. Switch with `ml4w-toast`. |
 | `rofi-themes/` | Launcher styles: one per global theme (softglass, flat, cyber, retro, paper, pastel, brutal) plus spotlight, grid, fullscreen, sidebar, bar, terminal, minimal. Switch with `ml4w-rofi`. |
 | `prompts/` | 15 oh-my-posh prompt themes (palette from the wallpaper). Switch with `ml4w-prompt` (alias `prompt`). |
+| `tools/promptmap/` | Rust tool that re-colors any oh-my-posh theme (stock `shipped:*` and `edm115`) from the wallpaper palette. Built and linked by `ml4w-custom-sync`. |
 | `ml4w-themes/custom-lib.sh` | Shared apply/backup/restore code for the custom global themes |
 | `swaync-themes/`, `wlogout-themes/`, `dock-themes/` | Soft Glass parts. swaync and wlogout import ML4W's glass theme and only override shape and transparency. |
 | `hypr-decorations/`, `hypr-windows/` | Window look for each theme (Lua config) |
@@ -73,7 +74,7 @@ Known limit: blur behind swaync notification popups does not show on this setup,
 
 | Command | What |
 |---|---|
-| `prompt` | Pick a terminal prompt with fzf and a live preview. `prompt <name>`, `prompt list`, `prompt random`, `prompt edm115` (your original). `shipped:<name>` uses oh-my-posh's own themes (fixed colors). Applies to open terminals at the next prompt. |
+| `prompt` | Pick a terminal prompt with fzf and a live preview. `prompt <name>`, `prompt list`, `prompt random`, `prompt edm115` (your original). `shipped:<name>` uses oh-my-posh's own themes, re-colored from the wallpaper by `promptmap`. Applies to open terminals at the next prompt. |
 | `toast` | Pick a notification popup style (rofi menu, or fzf in a terminal). `toast <name>`, `toast list`, `toast test`. |
 | `rofitheme` | Pick a launcher style; it opens the launcher to show it. `rofitheme default` goes back to ML4W's look. |
 | `SUPER+CTRL+T` | Waybar themes. `CTRL+ALT+T`: global themes. |
@@ -81,7 +82,7 @@ Known limit: blur behind swaync notification popups does not show on this setup,
 
 (`prompt`, `toast` and `rofitheme` are aliases for `ml4w-prompt`, `ml4w-toast`, `ml4w-rofi`.)
 
-Prompt colors follow the wallpaper: `ml4w-prompt-refresh.path` watches the palette file Matugen rewrites and rebuilds `~/.config/ohmyposh/active.omp.json` with the new colors. Prompt themes use palette names (`p:primary`, `p:surface_container`, ...), never fixed colors.
+Prompt colors follow the wallpaper: `ml4w-prompt-refresh.path` watches the palette file Matugen rewrites and rebuilds `~/.config/ohmyposh/active.omp.json` with the new colors. Prompt themes use palette names (`p:primary`, `p:surface_container`, ...), never fixed colors. Stock themes go through `promptmap`: greys become palette neutrals, colors become accent slots (`pm0`, `pm1`, ...) whose hue is rotated onto the wallpaper's primary hue (reds onto the error hue), with lightness kept and fg/bg contrast re-checked on every palette change (about 2 ms).
 Terminal (kitty) colors already follow the wallpaper through Matugen's `colors-matugen.conf`.
 
 Rofi: `ml4w-custom-sync` makes sure `~/.config/rofi/config.rasi` imports `~/.config/ml4w/settings/rofi-theme.rasi`, which `ml4w-rofi` writes. Rofi has no alpha-on-theme-color syntax and no `height: auto`, so styles use solid theme colors.
