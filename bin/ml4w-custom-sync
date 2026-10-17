@@ -50,6 +50,24 @@ if [ -d "$HOME/.config/zshrc" ]; then
     done
 fi
 
+
+# Command-line tools: linked into ~/.local/bin
+mkdir -p "$HOME/.local/bin"
+for f in "$repo"/bin/*; do
+    [ "$(readlink "$HOME/.local/bin/$(basename "$f")")" = "$f" ] || ln -sf "$f" "$HOME/.local/bin/$(basename "$f")"
+done
+
+# Rofi styles: config.rasi must import the style file the ml4w-rofi tool writes
+rofi_style="$HOME/.config/ml4w/settings/rofi-theme.rasi"
+[ -d "$HOME/.config/ml4w/settings" ] && [ -e "$rofi_style" ] || { [ -d "$HOME/.config/ml4w/settings" ] && echo '/* default ML4W look */' > "$rofi_style"; }
+if [ -f "$HOME/.config/rofi/config.rasi" ] && ! grep -q 'rofi-theme.rasi' "$HOME/.config/rofi/config.rasi"; then
+    printf '\n/* ---- Custom launcher style (ml4w-rofi) ---- */\n@import "~/.config/ml4w/settings/rofi-theme.rasi"\n' >> "$HOME/.config/rofi/config.rasi"
+    echo ":: rofi config now imports rofi-theme.rasi"
+fi
+
+# Prompt: rebuild the active prompt (palette may have changed)
+command -v ml4w-prompt >/dev/null && ml4w-prompt refresh >/dev/null 2>&1
+
 # Restart waybar if the active theme is one of ours and it changed
 if [ "$waybar_changed" = 1 ] && pgrep -x waybar >/dev/null; then
     setsid -f "$HOME/.config/waybar/launch.sh" >/dev/null 2>&1

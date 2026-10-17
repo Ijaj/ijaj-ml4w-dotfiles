@@ -1,0 +1,10 @@
+/* Pastel: soft rounded cards in tinted container colors */
+window { location: center; anchor: center; width: 46em; border: 0; border-radius: 30px; background-color: @surface-container-low; }
+mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0.8em; padding: 1.2em; background-image: none; background-color: transparent; }
+inputbar { margin: 0; padding: 0.2em 0.8em; border-radius: 999px; background-color: @tertiary-container; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { padding: 0.9em 0.2em 0 0.3em; text-color: @on-tertiary-container; }
+entry { text-color: @on-tertiary-container; placeholder-color: @on-tertiary-container; }
+listview { lines: 7; columns: 1; spacing: 0.4em; padding: 0; fixed-height: false; background-color: transparent; }
+element { padding: 0.6em 1em; border-radius: 20px; background-color: @surface-container; }
+element selected.normal { background-color: @primary-container; text-color: @on-primary-container; border-radius: 20px; }
+element-icon { size: 2.4em; }

@@ -1,0 +1,10 @@
+/* Bar: thin dmenu-style strip across the top, results run left to right */
+window { location: north; anchor: north; width: 100%; border: 0 0 2px 0; border-color: @primary; border-radius: 0; background-color: @surface; }
+mainbox { orientation: horizontal; children: [ "inputbar", "listview" ]; spacing: 1em; padding: 0.2em 0.8em; background-image: none; background-color: transparent; }
+inputbar { margin: 0; padding: 0; width: 18em; expand: false; border-radius: 0; background-color: transparent; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { padding: 0.55em 0.2em 0 0; text-color: @primary; }
+entry { padding: 0.5em 0.3em; }
+listview { layout: horizontal; lines: 30; columns: 30; spacing: 0.3em; padding: 0; fixed-height: false; fixed-columns: false; background-color: transparent; }
+element { padding: 0.4em 0.8em; border-radius: 8px; spacing: 6px; }
+element selected.normal { background-color: @primary; text-color: @on-primary; border-radius: 8px; }
+element-icon { size: 1.3em; }

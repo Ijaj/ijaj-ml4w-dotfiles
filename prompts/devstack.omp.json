@@ -1,0 +1,153 @@
+{
+  "version": 4,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "session",
+          "style": "powerline",
+          "template": " {{ .UserName }}@{{ .HostName }} ",
+          "foreground": "p:on_primary",
+          "background": "p:primary",
+          "powerline_symbol": ""
+        },
+        {
+          "type": "path",
+          "style": "powerline",
+          "template": " {{ .Path }} ",
+          "foreground": "p:on_secondary",
+          "background": "p:secondary",
+          "properties": {
+            "style": "folder",
+            "max_depth": 4,
+            "folder_separator_icon": "/"
+          },
+          "powerline_symbol": ""
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
+          "foreground": "p:on_tertiary",
+          "background": "p:tertiary",
+          "properties": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "branch_icon": " ",
+            "untracked_modes": {
+              "/": "no"
+            }
+          },
+          "powerline_symbol": ""
+        },
+        {
+          "type": "node",
+          "style": "powerline",
+          "template": "  {{ .Full }} ",
+          "foreground": "p:on_primary_container",
+          "background": "p:primary_container",
+          "properties": {
+            "fetch_version": true
+          },
+          "powerline_symbol": ""
+        },
+        {
+          "type": "python",
+          "style": "powerline",
+          "template": "  {{ .Full }} ",
+          "foreground": "p:on_primary_container",
+          "background": "p:primary_container",
+          "properties": {
+            "fetch_version": true
+          },
+          "powerline_symbol": ""
+        },
+        {
+          "type": "go",
+          "style": "powerline",
+          "template": "  {{ .Full }} ",
+          "foreground": "p:on_primary_container",
+          "background": "p:primary_container",
+          "properties": {
+            "fetch_version": true
+          },
+          "powerline_symbol": ""
+        },
+        {
+          "type": "rust",
+          "style": "powerline",
+          "template": "  {{ .Full }} ",
+          "foreground": "p:on_primary_container",
+          "background": "p:primary_container",
+          "properties": {
+            "fetch_version": true
+          },
+          "powerline_symbol": ""
+        },
+        {
+          "type": "java",
+          "style": "powerline",
+          "template": "  {{ .Full }} ",
+          "foreground": "p:on_primary_container",
+          "background": "p:primary_container",
+          "properties": {
+            "fetch_version": true
+          },
+          "powerline_symbol": ""
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "template": " {{ .FormattedMs }} ",
+          "foreground": "p:on_surface_variant",
+          "properties": {
+            "threshold": 2000,
+            "style": "austin"
+          }
+        },
+        {
+          "type": "status",
+          "style": "plain",
+          "template": " {{ if gt .Code 0 }}✘ {{ .Code }}{{ else }}✔{{ end }} ",
+          "foreground": "p:primary",
+          "properties": {
+            "always_enabled": true
+          },
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:error{{ end }}"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "❯ ",
+          "foreground": "p:primary",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:error{{ end }}"
+          ]
+        }
+      ],
+      "newline": true
+    }
+  ],
+  "transient_prompt": {
+    "foreground": "p:primary",
+    "background": "transparent",
+    "template": "❯ "
+  }
+}

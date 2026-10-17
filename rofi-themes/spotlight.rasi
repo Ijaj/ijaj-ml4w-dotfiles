@@ -1,0 +1,10 @@
+/* Spotlight: one centered search box with a short list underneath */
+window { location: center; anchor: center; y-offset: -12%; width: 40em; border: @border-width; border-color: @primary; border-radius: 18px; background-color: @surface-container; }
+mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; background-image: none; background-color: transparent; }
+inputbar { margin: 0; padding: 0.4em 0.6em; border-radius: 0; background-color: transparent; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { padding: 0.9em 0.2em 0 0.4em; text-color: @primary; }
+entry { padding: 0.8em 0.5em; font: "Fira Sans 15"; }
+listview { padding: 0 0.6em 0.8em 0.6em; lines: 7; columns: 1; spacing: 0.2em; fixed-height: false; background-color: transparent; }
+element { padding: 0.5em 0.8em; border-radius: 12px; }
+element selected.normal { background-color: @primary; text-color: @on-primary; border-radius: 12px; }
+element-icon { size: 2.2em; }

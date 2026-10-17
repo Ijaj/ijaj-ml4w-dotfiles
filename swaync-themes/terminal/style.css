@@ -1,0 +1,19 @@
+/* Toast "terminal": only the popup cards change, everything else is ML4W glass */
+@import "../glass/notifications.css";
+@import "../glass/control_center.css";
+@define-color fontcolor @primary;
+
+.floating-notifications.background .notification-row .notification-background .notification,
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    background: @background;
+    background-image: none;
+    border: 2px solid @primary;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 10px 18px 10px 10px;
+    padding: 2px;
+}
+.floating-notifications.background .notification-row .notification-background .notification.critical { border-color: @error; }
+.floating-notifications .notification .summary { color: @primary; }
+.floating-notifications .notification .body, .floating-notifications .notification .time { color: alpha(@primary, 0.8); }
+.floating-notifications .notification * { font-family: "FiraCode Nerd Font", monospace; }

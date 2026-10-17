@@ -1,0 +1,21 @@
+/* Blocks: every module is its own solid tinted block, small gaps between them */
+* { font-family: "Fira Sans Semibold", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", sans-serif; font-size: 13px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
+window#waybar { background: transparent; }
+tooltip { background: @surface_container; border: none; border-radius: 6px; }
+tooltip label { color: @on_surface; }
+label.module, #tray, #hardware, #tools { color: @on_surface; background: @surface_container; padding: 0 12px; margin: 4px 2px; border-radius: 6px; transition: all 0.2s ease; }
+label.module:hover { background: @surface_container_highest; }
+#hardware label, #tools label { padding: 0 7px; background: transparent; }
+#custom-appmenu { background: @accent; color: @surface; font-weight: bold; padding: 0 14px; }
+#workspaces { background: @surface_container; border-radius: 6px; margin: 4px 2px; padding: 0 3px; }
+#workspaces button { color: @on_surface_variant; background: transparent; padding: 0 9px; margin: 3px 1px; border-radius: 5px; transition: all 0.2s ease; }
+#workspaces button.active { background: @accent; color: @surface; font-weight: bold; }
+#workspaces button:hover { background: @surface_container_highest; }
+#window { background: @surface_container_low; color: @on_surface_variant; }
+#clock { background: @secondary_container; color: @on_secondary_container; }
+#pulseaudio { background: @tertiary_container; color: @on_tertiary_container; }
+#network { background: @primary_container; color: @on_primary_container; }
+#custom-exit { background: @error_container; color: @on_error_container; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#custom-updates.red, #battery.critical:not(.charging) { background: @error; color: @on_error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@on_surface_variant, 0.5); }

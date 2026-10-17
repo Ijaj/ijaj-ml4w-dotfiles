@@ -1,0 +1,10 @@
+[Unit]
+Description=Re-color the shell prompt when the wallpaper palette changes
+
+[Path]
+PathChanged=%h/.config/waybar/colors.css
+PathChanged=%h/.config/ohmyposh/colors.json
+Unit=ml4w-prompt-refresh.service
+
+[Install]
+WantedBy=default.target

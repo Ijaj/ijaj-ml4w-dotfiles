@@ -1,0 +1,36 @@
+{
+    // General Settings
+    "layer": "top",
+    "position": "left",
+    "width": 46,
+    "margin-top": 8,
+    "margin-bottom": 8,
+    "margin-left": 8,
+    "margin-right": 0,
+    "spacing": 0,
+    // Load Modules
+    "include": [
+        "~/.config/ml4w/settings/waybar-quicklinks.json",
+        "~/.config/waybar/modules.json"
+    ],
+    // Modules Left
+    "modules-left": [
+        "custom/appmenu",
+        "hyprland/workspaces"
+    ],
+    // Modules Center
+    "modules-center": [
+        "clock"
+    ],
+    // Modules Right
+    "modules-right": [
+        "pulseaudio",
+        //"backlight",
+        "network",
+        "battery",
+        "tray",
+        "custom/notification",
+        "custom/exit"
+    ],
+    "clock": { "format": "{:%H\n%M}", "tooltip-format": "{:%A %d %B %Y}" }
+}

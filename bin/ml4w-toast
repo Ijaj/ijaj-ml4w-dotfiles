@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Switch the notification popup (toast) style.
+#   ml4w-toast              pick one (fzf in a terminal, rofi otherwise)
+#   ml4w-toast <name>       apply a style
+#   ml4w-toast list | current | test
+themes="$HOME/.config/swaync/themes"
+css="$HOME/.config/swaync/style.css"
+
+names() { for d in "$themes"/*/; do [ -f "$d/style.css" ] && basename "$d"; done; }
+current() { sed -nE 's|.*themes/([^/]+)/style.css.*|\1|p' "$css"; }
+test_toast() {
+    notify-send "Toast: $(current)" "This is how popups look now"
+    notify-send -u critical "Critical example" "Errors use the error color"
+}
+
+case "${1:-pick}" in
+list) names ;;
+current) current ;;
+test) test_toast ;;
+pick)
+    if [ -t 1 ] && command -v fzf >/dev/null; then
+        n=$(names | fzf --prompt='toast> ' --height=40% --reverse)
+    else
+        n=$(names | rofi -dmenu -i -p "Toast style")
+    fi
+    [ -n "$n" ] && exec "$0" "$n"
+    ;;
+*)
+    [ -f "$themes/$1/style.css" ] || { echo "unknown style: $1" >&2; exit 1; }
+    echo "@import \"themes/$1/style.css\";" >"$css"
+    swaync-client -rs >/dev/null
+    test_toast
+    echo ":: toast style: $1"
+    ;;
+esac

@@ -1,0 +1,11 @@
+/* Fullscreen: dimmed screen, big search and a wide icon grid in the middle */
+window { fullscreen: true; border: 0; border-radius: 0; background-color: rgba(0,0,0,72%); }
+mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; padding: 8% 12%; spacing: 2em; background-image: none; background-color: transparent; }
+inputbar { margin: 0 22% 0 22%; padding: 0.3em 0.8em; border-radius: 999px; border: 2px; border-color: @primary; background-color: @surface-container; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { padding: 0.9em 0.2em 0 0.4em; text-color: @primary; }
+entry { font: "Fira Sans 14"; }
+listview { columns: 7; lines: 4; spacing: 0.5em; fixed-height: true; fixed-columns: true; background-color: transparent; }
+element { orientation: vertical; padding: 1em 0.3em; border-radius: 18px; }
+element selected.normal { background-color: @primary-container; text-color: @on-surface; border-radius: 18px; }
+element-icon { size: 5em; horizontal-align: 0.5; }
+element-text { horizontal-align: 0.5; text-color: white; }

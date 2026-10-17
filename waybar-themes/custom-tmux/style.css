@@ -1,0 +1,17 @@
+/* Tmux: status line at the bottom, mono, accent block for the active workspace */
+* { font-family: "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 6 Free", FontAwesome, "Material Icons", monospace; font-size: 13px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
+window#waybar { background: @surface_container_low; border-top: 2px solid @accent; }
+tooltip { background: @surface; border: 1px solid @accent; border-radius: 0; }
+tooltip label { color: @on_surface; }
+label.module, #tray, #hardware, #tools { color: @on_surface_variant; background: transparent; padding: 0 10px; margin: 0; }
+label.module:hover { color: @on_surface; background: alpha(@accent, 0.2); }
+#hardware label, #tools label { padding: 0 6px; }
+#custom-appmenu { background: @accent; color: @surface; font-weight: bold; padding: 0 12px; }
+#workspaces button { color: @on_surface_variant; background: transparent; padding: 0 8px; margin: 0; }
+#workspaces button.active { background: @accent; color: @surface; font-weight: bold; }
+#workspaces button:hover { background: alpha(@accent, 0.25); }
+#window { color: @on_surface; }
+#clock { background: @surface_container_highest; color: @accent; padding: 0 12px; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#custom-updates.red, #battery.critical:not(.charging) { color: @error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@on_surface_variant, 0.45); }

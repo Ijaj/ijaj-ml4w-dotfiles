@@ -42,7 +42,10 @@ setopt appendhistory
 # Prompt
 # -----------------------------------------------------
 # eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
-eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/EDM115-newline.omp.json)"
+# Switch prompt with: prompt   (see ml4w-prompt --help). Colors follow the wallpaper.
+[ -f "$HOME/.config/ohmyposh/active.omp.json" ] || ml4w-prompt refresh >/dev/null 2>&1
+eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/active.omp.json)"
+alias prompt=ml4w-prompt toast=ml4w-toast rofitheme=ml4w-rofi
 
 # Shipped Theme
 # eval "$(oh-my-posh init zsh --config /usr/share/oh-my-posh/themes/agnoster.omp.json)"

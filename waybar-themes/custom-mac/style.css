@@ -1,0 +1,17 @@
+/* Menubar: thin, translucent, quiet. Active workspace is a small accent pill. */
+* { font-family: "Fira Sans", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 6 Free", FontAwesome, "Material Icons", sans-serif; font-size: 12px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
+window#waybar { background: alpha(@surface, 0.72); }
+tooltip { background: @surface_container; border: 1px solid alpha(@on_surface, 0.12); border-radius: 8px; }
+tooltip label { color: @on_surface; }
+label.module, #tray, #hardware, #tools { color: @on_surface; background: transparent; padding: 0 9px; margin: 2px 0; border-radius: 6px; transition: all 0.15s ease; }
+label.module:hover { background: alpha(@on_surface, 0.12); }
+#hardware label, #tools label { padding: 0 5px; }
+#custom-appmenu { color: @on_surface; font-weight: bold; padding: 0 12px; }
+#workspaces button { color: alpha(@on_surface, 0.55); background: transparent; padding: 0 7px; margin: 5px 2px; border-radius: 8px; transition: all 0.15s ease; }
+#workspaces button.active { background: @accent; color: @surface; }
+#workspaces button:hover { background: alpha(@on_surface, 0.12); }
+#window { color: @on_surface; font-weight: bold; }
+#clock { color: @on_surface; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#custom-updates.red, #battery.critical:not(.charging) { color: @error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@on_surface_variant, 0.45); }

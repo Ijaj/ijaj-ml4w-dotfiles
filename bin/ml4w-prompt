@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Switch the oh-my-posh prompt theme. Colors come from the current wallpaper.
+#   ml4w-prompt                 pick one (fzf, with live preview)
+#   ml4w-prompt <name>          use a theme   (also: shipped:<name>, edm115)
+#   ml4w-prompt list | current | random | refresh | preview <name>
+repo="$(dirname "$(dirname "$(readlink -f "$0")")")"
+dir="$repo/prompts"
+conf="$HOME/.config/ohmyposh"
+active="$conf/active.omp.json"
+sel="$HOME/.config/ml4w/settings/prompt-theme"
+colors="$HOME/.config/waybar/colors.css"
+shipped="$HOME/.cache/oh-my-posh/themes"
+[ -d "$shipped" ] || shipped=/usr/share/oh-my-posh/themes
+
+palette() {
+    sed -nE 's/^[[:space:]]*@define-color ([a-z_0-9]+) (#[0-9a-fA-F]{6,8});.*/\1 \2/p' "$colors" |
+        jq -Rn '[inputs | split(" ") | {(.[0]): .[1]}] | add | {palette: .}'
+}
+
+# path of the theme file for a name (empty if unknown)
+file_of() {
+    case "$1" in
+    shipped:*) f="$shipped/${1#shipped:}.omp.json" ;;
+    edm115) f="$conf/EDM115-newline.omp.json" ;;
+    *) f="$dir/$1.omp.json" ;;
+    esac
+    [ -f "$f" ] && echo "$f"
+}
+
+# render a theme to stdout: palette themes get the wallpaper palette merged in
+render() {
+    local f
+    f=$(file_of "$1") || return 1
+    case "$1" in
+    shipped:*) cat "$f" ;;
+    edm115) jq -s '.[0] + .[1]' "$f" "$conf/colors.json" ;;
+    *) jq -s '.[0] + .[1]' "$f" <(palette) ;;
+    esac
+}
+
+apply() {
+    local tmp
+    tmp=$(mktemp "$conf/.active.XXXXXX") || return 1
+    if render "$1" >"$tmp" 2>/dev/null && [ -s "$tmp" ]; then
+        mv "$tmp" "$active"
+    else
+        rm -f "$tmp"
+        echo "unknown theme: $1" >&2
+        return 1
+    fi
+}
+
+names() {
+    ls "$dir" 2>/dev/null | sed 's/\.omp\.json$//'
+    echo edm115
+    ls "$shipped" 2>/dev/null | sed 's/\.omp\.json$/ /;s/^/shipped:/;s/ $//'
+}
+
+current() { cat "$sel" 2>/dev/null || echo edm115; }
+
+case "${1:-pick}" in
+list) names ;;
+current) current ;;
+refresh) apply "$(current)" ;;
+preview)
+    tmp=$(mktemp --suffix=.omp.json)
+    render "$2" >"$tmp" && oh-my-posh print primary --config "$tmp" --shell universal 2>/dev/null
+    echo
+    rm -f "$tmp"
+    ;;
+random)
+    n=$(ls "$dir" | sed 's/\.omp\.json$//' | shuf -n1)
+    echo "$n" >"$sel" && apply "$n" && echo ":: prompt: $n"
+    ;;
+pick)
+    command -v fzf >/dev/null || { echo "fzf missing, use: ml4w-prompt <name>" >&2; exit 1; }
+    n=$(names | fzf --prompt='prompt> ' --height=60% --reverse \
+        --preview "$0 preview {}" --preview-window=down:5)
+    [ -n "$n" ] && "$0" "$n"
+    ;;
+*)
+    n="$1"
+    apply "$n" || exit 1
+    echo "$n" >"$sel"
+    echo ":: prompt: $n"
+    ;;
+esac

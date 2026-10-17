@@ -10,11 +10,11 @@ if [ ! -d "$HOME/.config/waybar/themes" ] || [ ! -d "$HOME/.config/zshrc" ]; the
 fi
 
 mkdir -p "$HOME/.local/bin" "$HOME/.config/systemd/user"
-ln -sf "$repo/bin/ml4w-custom-sync" "$HOME/.local/bin/ml4w-custom-sync"
-cp "$repo"/systemd/ml4w-custom-sync.* "$HOME/.config/systemd/user/"
+for f in "$repo"/bin/*; do ln -sf "$f" "$HOME/.local/bin/$(basename "$f")"; done
+cp "$repo"/systemd/*.{path,service} "$HOME/.config/systemd/user/"
 
 systemctl --user daemon-reload
-systemctl --user enable --now ml4w-custom-sync.path
+systemctl --user enable --now ml4w-custom-sync.path ml4w-prompt-refresh.path
 systemctl --user enable ml4w-custom-sync.service
 "$HOME/.local/bin/ml4w-custom-sync"
 

@@ -1,0 +1,76 @@
+{
+  "version": 4,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "time",
+          "style": "diamond",
+          "template": " {{ .CurrentDate | date \"15:04\" }} ",
+          "foreground": "p:on_surface_variant",
+          "background": "p:surface_container_high",
+          "properties": {
+            "time_format": "15:04"
+          },
+          "leading_diamond": "",
+          "trailing_diamond": ""
+        },
+        {
+          "type": "path",
+          "style": "diamond",
+          "template": " {{ .Path }} ",
+          "foreground": "p:on_primary",
+          "background": "p:primary",
+          "properties": {
+            "style": "folder",
+            "max_depth": 4,
+            "folder_separator_icon": "/"
+          },
+          "leading_diamond": " ",
+          "trailing_diamond": ""
+        },
+        {
+          "type": "git",
+          "style": "diamond",
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} ",
+          "foreground": "p:on_secondary",
+          "background": "p:secondary",
+          "properties": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "branch_icon": " ",
+            "untracked_modes": {
+              "/": "no"
+            }
+          },
+          "leading_diamond": " ",
+          "trailing_diamond": ""
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "❯ ",
+          "foreground": "p:primary",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:error{{ end }}"
+          ]
+        }
+      ],
+      "newline": true
+    }
+  ],
+  "transient_prompt": {
+    "foreground": "p:primary",
+    "background": "transparent",
+    "template": "❯ "
+  }
+}

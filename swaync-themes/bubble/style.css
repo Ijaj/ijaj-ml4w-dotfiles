@@ -1,0 +1,19 @@
+/* Toast "bubble": only the popup cards change, everything else is ML4W glass */
+@import "../glass/notifications.css";
+@import "../glass/control_center.css";
+@define-color fontcolor @on_primary_container;
+
+.floating-notifications.background .notification-row .notification-background .notification,
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    background: @primary_container;
+    background-image: none;
+    border: none;
+    border-radius: 28px;
+    box-shadow: 0 6px 18px alpha(black, 0.35);
+    margin: 12px 20px 12px 12px;
+    padding: 6px 10px;
+}
+.floating-notifications.background .notification-row .notification-background .notification.critical { border-color: @error; }
+.floating-notifications .notification .summary { color: @on_primary_container; }
+.floating-notifications .notification .body, .floating-notifications .notification .time { color: alpha(@on_primary_container, 0.8); }
+

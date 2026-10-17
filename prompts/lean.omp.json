@@ -1,0 +1,80 @@
+{
+  "version": 4,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "\n╭─",
+          "foreground": "p:outline"
+        },
+        {
+          "type": "path",
+          "style": "plain",
+          "template": " {{ .Path }}",
+          "foreground": "p:primary",
+          "properties": {
+            "style": "folder",
+            "max_depth": 4,
+            "folder_separator_icon": "/"
+          }
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}",
+          "foreground": "p:tertiary",
+          "properties": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "branch_icon": " ",
+            "untracked_modes": {
+              "/": "no"
+            }
+          }
+        },
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "template": " {{ .FormattedMs }}",
+          "foreground": "p:on_surface_variant",
+          "properties": {
+            "threshold": 2000,
+            "style": "austin"
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "╰─",
+          "foreground": "p:outline"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "❯ ",
+          "foreground": "p:primary",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:error{{ end }}"
+          ]
+        }
+      ],
+      "newline": true
+    }
+  ],
+  "transient_prompt": {
+    "foreground": "p:primary",
+    "background": "transparent",
+    "template": "❯ "
+  }
+}

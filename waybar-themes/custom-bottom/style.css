@@ -1,0 +1,18 @@
+/* Bottom: one floating rounded bar at the bottom edge */
+* { font-family: "Fira Sans Semibold", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", sans-serif; font-size: 13px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
+window#waybar { background: transparent; }
+tooltip { background: @surface_container; border: 1px solid alpha(@accent, 0.6); border-radius: 12px; }
+tooltip label { color: @on_surface; }
+.modules-left, .modules-center, .modules-right { background: alpha(@surface, 0.9); border: 1px solid alpha(@accent, 0.35); border-radius: 18px; padding: 0 6px; margin: 0 3px; }
+window#waybar.empty .modules-center { background: transparent; border-color: transparent; }
+label.module, #tray, #hardware, #tools { color: @on_surface; background: transparent; padding: 0 10px; margin: 4px 1px; border-radius: 12px; transition: all 0.2s ease; }
+label.module:hover { background: alpha(@accent, 0.2); }
+#hardware label, #tools label { padding: 0 6px; }
+#custom-appmenu { background: @accent; color: @surface; padding: 0 14px; font-weight: bold; }
+#workspaces button { color: @on_surface_variant; background: transparent; padding: 0 9px; margin: 5px 2px; border-radius: 12px; transition: all 0.2s ease; }
+#workspaces button.active { background: alpha(@accent, 0.3); color: @on_surface; font-weight: bold; }
+#workspaces button:hover { background: alpha(@accent, 0.18); }
+#window { color: @on_surface_variant; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#custom-updates.red, #battery.critical:not(.charging) { color: @error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@on_surface_variant, 0.45); }

@@ -1,0 +1,42 @@
+{
+    // General Settings
+    "layer": "top",
+    "position": "bottom",
+    "height": 36,
+    "margin-top": 0,
+    "margin-bottom": 8,
+    "margin-left": 14,
+    "margin-right": 14,
+    "spacing": 0,
+    // Load Modules
+    "include": [
+        "~/.config/ml4w/settings/waybar-quicklinks.json",
+        "~/.config/waybar/modules.json"
+    ],
+    // Modules Left
+    "modules-left": [
+        "custom/appmenu",
+        "hyprland/workspaces",
+        //"wlr/taskbar",
+        //"group/quicklinks",
+        "hyprland/window"
+    ],
+    // Modules Center
+    "modules-center": [
+        "clock"
+    ],
+    // Modules Right
+    "modules-right": [
+        "custom/updates",
+        "pulseaudio",
+        //"backlight",
+        "bluetooth",
+        "network",
+        "battery",
+        "group/hardware",
+        "group/tools",
+        "tray",
+        "custom/notification",
+        "custom/exit"
+    ]
+}

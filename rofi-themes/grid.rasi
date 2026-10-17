@@ -1,0 +1,10 @@
+/* Grid: app icons in a grid, name under each icon */
+window { location: center; anchor: center; width: 62em; border: @border-width; border-color: @outline-variant; border-radius: 22px; background-color: @surface-container; }
+mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; background-image: none; background-color: transparent; padding: 1em; }
+inputbar { margin: 0 8em 1em 8em; padding: 0.2em 0.6em; border-radius: 999px; background-color: @surface-container-high; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { padding: 0.9em 0.2em 0 0.4em; text-color: @primary; }
+listview { padding: 0.5em; columns: 6; lines: 3; spacing: 0.6em; fixed-height: true; fixed-columns: true; layout: vertical; background-color: transparent; }
+element { orientation: vertical; padding: 1em 0.4em; border-radius: 16px; }
+element selected.normal { background-color: @primary-container; text-color: @on-primary-container; border-radius: 16px; }
+element-icon { size: 4.4em; horizontal-align: 0.5; }
+element-text { horizontal-align: 0.5; vertical-align: 0.5; }

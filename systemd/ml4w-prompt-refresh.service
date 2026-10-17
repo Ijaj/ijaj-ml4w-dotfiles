@@ -1,0 +1,6 @@
+[Unit]
+Description=Rebuild the active oh-my-posh prompt with the current wallpaper palette
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'sleep 1; %h/.local/bin/ml4w-prompt refresh'

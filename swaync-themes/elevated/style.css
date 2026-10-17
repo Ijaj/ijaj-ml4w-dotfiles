@@ -1,0 +1,19 @@
+/* Toast "elevated": only the popup cards change, everything else is ML4W glass */
+@import "../glass/notifications.css";
+@import "../glass/control_center.css";
+@define-color fontcolor @on_surface;
+
+.floating-notifications.background .notification-row .notification-background .notification,
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    background: @surface_container_highest;
+    background-image: none;
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 10px 28px alpha(black, 0.55);
+    margin: 14px 24px 18px 14px;
+    padding: 4px 8px;
+}
+.floating-notifications.background .notification-row .notification-background .notification.critical { border-color: @error; }
+.floating-notifications .notification .summary { color: @on_surface; }
+.floating-notifications .notification .body, .floating-notifications .notification .time { color: alpha(@on_surface, 0.8); }
+
