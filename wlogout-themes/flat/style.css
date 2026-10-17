@@ -1,0 +1,22 @@
+/* Flat logout: solid background, square-ish buttons, no shadows */
+@import "../glass/style.css";
+
+window { background: @surface; background-image: none; }
+button {
+    border-radius: 8px;
+    border: 1px solid @outline_variant;
+    background-color: @surface_container;
+    color: @on_surface;
+    min-width: 120px;
+    min-height: 120px;
+    margin: 10px;
+    box-shadow: none;
+}
+button:focus { background-color: @surface_container_high; border-color: @primary; }
+button:hover {
+    background-color: @primary_container;
+    color: @on_primary_container;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: none;
+}

@@ -1,0 +1,26 @@
+/* Flat: solid bar, no blur, no boxes. Muted text, accent only for the active workspace. */
+* { font-family: "Fira Sans Semibold", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", sans-serif; font-size: 13px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
+window#waybar { background: @surface; border-bottom: 1px solid alpha(@outline_variant, 0.6); }
+tooltip { background: @surface_container; border: 1px solid @outline_variant; border-radius: 4px; }
+tooltip label { color: @on_surface; }
+
+label.module, #tray, #hardware, #tools {
+    color: @on_surface_variant; background: transparent;
+    padding: 0 12px; margin: 0;
+    transition: color 0.15s ease;
+}
+label.module:hover { color: @on_surface; }
+#hardware label, #tools label { padding: 0 7px; }
+
+#custom-appmenu { color: @on_surface; padding: 0 14px; }
+#workspaces { margin: 0 4px; }
+#workspaces button { color: alpha(@on_surface_variant, 0.7); background: transparent; padding: 0 8px; margin: 0; transition: color 0.15s ease; }
+#workspaces button.active { color: @primary; font-weight: bold; }
+#workspaces button:hover { color: @on_surface; background: transparent; }
+#window { color: alpha(@on_surface_variant, 0.8); }
+#clock { color: @on_surface; }
+#custom-exit { color: @on_surface_variant; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#custom-updates.yellow { color: @tertiary; }
+#custom-updates.red, #battery.critical:not(.charging) { color: @error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@on_surface_variant, 0.45); }

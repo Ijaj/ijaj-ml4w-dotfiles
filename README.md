@@ -7,11 +7,13 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 
 | Path | What |
 |---|---|
-| `waybar-themes/` | Custom Waybar themes: Islands, Hairline, Neon, Capsule (2 variants each), Soft Glass. Colors follow the wallpaper (Matugen). |
+| `waybar-themes/` | Custom Waybar themes: Islands, Hairline, Neon, Capsule (2 variants each), Soft Glass, Flat. Colors follow the wallpaper (Matugen). |
 | `ml4w-themes/softglass/` | **Soft Glass**: a global ML4W theme (shows in the ML4W theme picker). Sets bar, notifications, logout screen, dock, launcher and window look in one go. |
 | `ml4w-themes/softglass-restore/` | Undoes Soft Glass, back to whatever was set before |
+| `ml4w-themes/flat/`, `flat-restore/` | **Flat**: solid and minimal. No blur or shadows, 6px corners, thin 1px lines, muted text with the accent only on the active workspace. |
+| `ml4w-themes/custom-lib.sh` | Shared apply/backup/restore code for the custom global themes |
 | `swaync-themes/`, `wlogout-themes/`, `dock-themes/` | Soft Glass parts. swaync and wlogout import ML4W's glass theme and only override shape and transparency. |
-| `hypr-decorations/`, `hypr-windows/` | Soft Glass window look: 16px corners, frosted bar/launcher, soft shadows, translucent borders (Lua config) |
+| `hypr-decorations/`, `hypr-windows/` | Window look for each theme (Lua config) |
 | `zshrc/01-envs` | Environment variables (Android SDK, Flutter/fvm, Chrome) |
 | `zshrc/26-functions` | My functions (`ccc`, `startup`, `nn`, `ng`), nvm, LM Studio path |
 | `zshrc/custom/20-customization` | Overrides the ML4W file of the same name (oh-my-posh prompt choice) |
@@ -32,10 +34,13 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 
 Keep the repo at `~/ijaj-ml4w-dotfiles` (or re-run `./install.sh` after moving it), since files are linked from it.
 
-## Soft Glass
+## Global themes (Soft Glass, Flat)
 
-Open the ML4W theme picker and choose `softglass`. To go back, choose `softglass-restore`.
-The previous settings are saved once to `~/.local/state/ml4w-custom/pre-softglass/` the first time you apply it.
+Open the ML4W theme picker with `CTRL+ALT+T` and choose `softglass` or `flat`. To go back, choose `softglass-restore` or `flat-restore`.
+(`SUPER+CTRL+T` is a different picker: it only lists Waybar themes.)
+The settings from before are saved to `~/.local/state/ml4w-custom/pre-<theme>/` when you apply a theme. Re-applying a theme that is already active keeps that backup.
+
+To add another global theme: copy the `flat` entries in each folder, change the look, and write a small `theme.sh` that calls `cc_backup` and `cc_apply` from `custom-lib.sh`.
 
 Known limit: blur behind swaync notification popups does not show on this setup, so those cards use a mostly opaque background instead.
 
