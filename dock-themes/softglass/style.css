@@ -1,0 +1,16 @@
+/* Soft Glass dock */
+@import url("../../colors.css");
+
+window {
+    padding: 8px;
+    margin: 10px;
+    background: alpha(@surface, 0.45);
+    border: 1px solid alpha(@on_surface, 0.16);
+    border-radius: 24px;
+}
+#box { padding: 6px; }
+#active { border-bottom: solid 3px; border-color: alpha(@primary, 0.9); border-radius: 2px; }
+button, image { background: none; border-style: none; box-shadow: none; color: @on_surface; }
+button { padding: 4px; margin: 0 4px; font-size: 12px; }
+button:hover { background-color: alpha(@on_surface, 0.12); border-radius: 14px; }
+button:focus { box-shadow: none; }

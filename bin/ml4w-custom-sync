@@ -4,20 +4,34 @@
 repo="$(dirname "$(dirname "$(readlink -f "$0")")")"
 backups="$HOME/.local/state/ml4w-custom/backups"
 
-# Waybar themes: copied, because the ML4W themeswitcher ignores symlinked dirs
-themes="$HOME/.config/waybar/themes"
+# Themes: copied, because the ML4W apps ignore symlinked dirs.
+# "dir" kinds: each subfolder is copied whole. "file" kinds: each file is copied.
+# format: <repo folder>:<destination>:<dir|file>
 changed=0
-if [ -d "$themes" ]; then
-    for theme in "$repo"/waybar-themes/*/; do
-        name=$(basename "$theme")
-        if ! diff -rq "$theme" "$themes/$name" >/dev/null 2>&1; then
-            rm -rf "${themes:?}/$name"
-            cp -r "$theme" "$themes/$name"
+active_waybar=$(cut -d';' -f1 "$HOME/.config/ml4w/settings/waybar-theme.sh" 2>/dev/null | tr -d '/')
+waybar_changed=0
+for entry in \
+    "waybar-themes:.config/waybar/themes:dir" \
+    "swaync-themes:.config/swaync/themes:dir" \
+    "wlogout-themes:.config/wlogout/themes:dir" \
+    "dock-themes:.config/nwg-dock-hyprland/themes:dir" \
+    "ml4w-themes:.config/ml4w/themes:dir" \
+    "hypr-decorations:.config/hypr/conf/decorations:file" \
+    "hypr-windows:.config/hypr/conf/windows:file"; do
+    IFS=: read -r from to kind <<<"$entry"
+    [ -d "$repo/$from" ] && [ -d "$HOME/$to" ] || continue
+    for item in "$repo/$from"/*; do
+        [ -e "$item" ] || continue
+        name=$(basename "$item")
+        if ! diff -rq "$item" "$HOME/$to/$name" >/dev/null 2>&1; then
+            rm -rf "${HOME:?}/$to/$name"
+            cp -r "$item" "$HOME/$to/$name"
             changed=1
-            echo ":: synced waybar theme $name"
+            [ "$from" = waybar-themes ] && [ "$name" = "$active_waybar" ] && waybar_changed=1
+            echo ":: synced $from/$name"
         fi
     done
-fi
+done
 
 # zshrc: symlinked, so edits in ~/.config/zshrc go straight into the repo.
 # Files in zshrc/custom/ override the ML4W file with the same name.
@@ -36,12 +50,8 @@ if [ -d "$HOME/.config/zshrc" ]; then
     done
 fi
 
-# Restart waybar if the active theme is one of ours and something changed
-if [ "$changed" = 1 ] && pgrep -x waybar >/dev/null; then
-    current=$(cat "$HOME/.config/ml4w/settings/waybar-theme.sh" 2>/dev/null)
-    name=$(echo "$current" | cut -d';' -f1 | tr -d '/')
-    if [ -n "$name" ] && [ -d "$repo/waybar-themes/$name" ]; then
-        setsid -f "$HOME/.config/waybar/launch.sh" >/dev/null 2>&1
-    fi
+# Restart waybar if the active theme is one of ours and it changed
+if [ "$waybar_changed" = 1 ] && pgrep -x waybar >/dev/null; then
+    setsid -f "$HOME/.config/waybar/launch.sh" >/dev/null 2>&1
 fi
 exit 0

@@ -4,6 +4,12 @@ Description=Re-apply customizations when an ML4W update replaces its folders
 [Path]
 PathChanged=%h/.config/waybar/themes
 PathChanged=%h/.config/zshrc
+PathChanged=%h/.config/swaync/themes
+PathChanged=%h/.config/wlogout/themes
+PathChanged=%h/.config/nwg-dock-hyprland/themes
+PathChanged=%h/.config/ml4w/themes
+PathChanged=%h/.config/hypr/conf/decorations
+PathChanged=%h/.config/hypr/conf/windows
 PathChanged=%h/.config/zshrc/custom
 Unit=ml4w-custom-sync.service
 

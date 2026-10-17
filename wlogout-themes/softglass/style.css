@@ -1,0 +1,18 @@
+/* Soft Glass logout: ML4W glass base, frosted translucent buttons */
+@import "../glass/style.css";
+
+button {
+    border-radius: 36px;
+    border: 1px solid alpha(@on_surface, 0.18);
+    background-color: alpha(@surface, 0.40);
+    min-width: 140px;
+    min-height: 140px;
+    margin: 14px;
+}
+button:focus { background-color: alpha(@primary, 0.45); border-color: alpha(@primary, 0.8); }
+button:hover {
+    background-color: alpha(@primary, 0.70);
+    margin: 14px;
+    border-radius: 36px;
+    box-shadow: 0 8px 30px alpha(@shadow, 0.5);
+}

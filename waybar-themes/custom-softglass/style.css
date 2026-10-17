@@ -1,0 +1,40 @@
+/* Soft Glass: three floating frosted pills. Blur comes from the Hyprland layer rule. */
+* { font-family: "Fira Sans Semibold", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", sans-serif; font-size: 13px; border: none; border-radius: 0; min-height: 0; }
+window#waybar { background: transparent; }
+tooltip { background: alpha(@surface, 0.75); border: 1px solid alpha(@on_surface, 0.15); border-radius: 14px; }
+tooltip label { color: @on_surface; }
+
+.modules-left, .modules-center, .modules-right {
+    background: alpha(@surface, 0.38);
+    border: 1px solid alpha(@on_surface, 0.14);
+    border-radius: 20px;
+    padding: 2px 6px;
+    box-shadow: 0 6px 20px alpha(@shadow, 0.22), inset 0 1px alpha(@on_surface, 0.10);
+}
+window#waybar.empty #window { background: transparent; }
+
+label.module, #tray, #hardware, #tools {
+    color: @on_surface; background: transparent;
+    padding: 2px 10px; margin: 3px 1px; border-radius: 14px;
+    transition: all 0.25s ease;
+}
+label.module:hover { background: alpha(@on_surface, 0.10); }
+#hardware label, #tools label { padding: 0 6px; }
+
+#custom-appmenu { color: @primary; font-size: 15px; padding: 2px 12px; }
+#workspaces { margin: 0 4px; }
+#workspaces button {
+    color: alpha(@on_surface, 0.55); padding: 0 6px; margin: 5px 2px;
+    border-radius: 10px; min-width: 12px; transition: all 0.3s ease;
+}
+#workspaces button.active { background: alpha(@primary, 0.85); color: @on_primary; min-width: 28px; }
+#workspaces button:hover { background: alpha(@on_surface, 0.14); color: @on_surface; }
+#window { color: alpha(@on_surface, 0.75); }
+#clock { font-weight: bold; padding: 2px 18px; }
+#custom-exit { color: @error; }
+#custom-notification { font-family: "Material Icons"; font-size: 16px; }
+#custom-updates.yellow { background: alpha(@secondary_container, 0.7); color: @on_secondary_container; }
+#custom-updates.red { background: alpha(@error, 0.85); color: @on_error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@on_surface, 0.4); }
+#battery.warning:not(.charging) { color: @tertiary; }
+#battery.critical:not(.charging) { background: alpha(@error, 0.85); color: @on_error; }

@@ -1,0 +1,24 @@
+/* Soft Glass notifications: ML4W glass base, rounder and more transparent */
+@import "../glass/notifications.css";
+@import "../glass/control_center.css";
+
+.floating-notifications.background .notification-row .notification-background .notification,
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    background: alpha(@surface, 0.86);
+    border: 1px solid alpha(@on_surface, 0.16);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px alpha(@shadow, 0.30);
+}
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    border: 1px solid alpha(@error, 0.7);
+}
+.control-center {
+    background: alpha(@surface, 0.78);
+    border: 1px solid alpha(@on_surface, 0.16);
+    border-radius: 24px;
+    opacity: 1;
+    box-shadow: 0 10px 30px alpha(@shadow, 0.35);
+}
+.widget-buttons-grid button { border: 1px solid alpha(@on_surface, 0.12); border-radius: 16px; }
+.widget-buttons-grid button:hover { border-radius: 22px; }
+.widget-volume, .widget-backlight { border-radius: 16px; background: alpha(@surface_container_high, 0.5); }
