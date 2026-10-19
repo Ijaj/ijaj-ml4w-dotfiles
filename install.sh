@@ -15,7 +15,7 @@ cp "$repo"/systemd/*.{path,service} "$HOME/.config/systemd/user/"
 
 systemctl --user daemon-reload
 systemctl --user enable --now ml4w-custom-sync.path ml4w-prompt-refresh.path
-systemctl --user enable ml4w-custom-sync.service
+systemctl --user enable ml4w-custom-sync.service ml4w-live.service
 "$HOME/.local/bin/ml4w-custom-sync"
 
 echo ":: done. Pick a theme with SUPER+CTRL+T, open a new terminal for zsh changes."

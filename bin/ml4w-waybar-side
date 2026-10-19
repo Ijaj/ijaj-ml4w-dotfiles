@@ -80,7 +80,7 @@ def gen_config(src, side):
     return f"// {MARK}\n" + text
 
 
-def gen_css(text, side, has_base):
+def gen_css(text, side, has_base, depth=5):
     horizontal = side in ("top", "bottom")
     out = []
     for l in text.split("\n"):
@@ -94,6 +94,9 @@ def gen_css(text, side, has_base):
             l = re.sub(r"margin:\s*(\d+)px\s+(\d+)px(\s*[;}])", r"margin: \2px \1px\3", l)
             l = l.replace("border-bottom", "border-right").replace("border-left", "border-top")
         out.append(l)
+    # ml4w-live vital --bar writes this file; it exists (empty) after every sync
+    if depth:
+        out.append("@import '%s.config/ml4w/settings/live-accent.css';" % ("../" * depth))
     return f"/* {MARK} */\n" + "\n".join(out)
 
 
@@ -133,11 +136,11 @@ def generate(side):
         vs = variants(tdir)
         subs = [v for v in vs if v != tdir]
         if has_base and subs:
-            changed += write_if_changed(f"{tdir}/style-side.css", gen_css(read(base), side, False))
+            changed += write_if_changed(f"{tdir}/style-side.css", gen_css(read(base), side, False, None))
         for v in subs:
             changed += write_if_changed(f"{v}/style-custom.css", gen_css(read(f"{v}/style.css"), side, has_base))
         if tdir in vs:  # style.css sits in the theme folder itself
-            changed += write_if_changed(f"{tdir}/style-custom.css", gen_css(read(base), side, False))
+            changed += write_if_changed(f"{tdir}/style-custom.css", gen_css(read(base), side, False, 4))
     return changed
 
 

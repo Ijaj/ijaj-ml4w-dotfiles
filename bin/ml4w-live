@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+"""Reactive ("live") themes: small daemons that keep restyling the desktop.
+
+  ml4w-live                      pick one to toggle (rofi, or fzf with --tty)
+  ml4w-live on|off|toggle <name> [--bar]
+  ml4w-live status | list | autostart | off-all
+
+  strata   windows fade and cool by how long ago you focused them
+  vital    window accent shifts primary -> tertiary -> error with CPU load, temperature, low battery
+           (--bar also tints the waybar edge line; needs ml4w-waybar-side on a side, not default)
+  solar    screen temperature and gamma follow the time of day (config: ~/.config/ml4w/settings/solar.conf)
+  modal    window border shows the active Hyprland submap (resize, move, ...)
+
+Enabled ones start at login (systemd user unit ml4w-live.service). Each runs as ml4w-live-<name>.service."""
+import os
+import subprocess
+import sys
+
+HOME = os.path.expanduser("~")
+REPO = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+NAMES = ["strata", "vital", "solar", "modal"]
+ENABLED = f"{HOME}/.config/ml4w/settings/live-enabled"
+
+
+def unit(n):
+    return f"ml4w-live-{n}.service"
+
+
+def running(n):
+    return subprocess.run(["systemctl", "--user", "is-active", "--quiet", unit(n)]).returncode == 0
+
+
+def read_enabled():
+    try:
+        return [l.strip() for l in open(ENABLED) if l.strip()]
+    except OSError:
+        return []
+
+
+def write_enabled(items):
+    os.makedirs(os.path.dirname(ENABLED), exist_ok=True)
+    open(ENABLED, "w").write("".join(i + "\n" for i in items))
+
+
+def start(n, extra=()):
+    if running(n):
+        return
+    subprocess.run(["systemd-run", "--user", f"--unit=ml4w-live-{n}", "--collect", "--quiet",
+                    "/usr/bin/python3", f"{REPO}/tools/live/{n}.py", *extra], check=False)
+
+
+def stop(n):
+    if running(n):
+        subprocess.run(["systemctl", "--user", "stop", unit(n)], check=False)
+
+
+def entry(n, extra):
+    return n + (":" + ",".join(extra) if extra else "")
+
+
+def on(n, extra):
+    items = [i for i in read_enabled() if i.split(":")[0] != n] + [entry(n, extra)]
+    write_enabled(items)
+    stop(n)
+    start(n, extra)
+    print(f":: {n} on")
+
+
+def off(n):
+    write_enabled([i for i in read_enabled() if i.split(":")[0] != n])
+    stop(n)
+    print(f":: {n} off")
+
+
+def status():
+    for n in NAMES:
+        print(f"{'on ' if running(n) else 'off'}  {n}")
+
+
+def autostart():
+    sys.path.insert(0, f"{REPO}/tools/live")
+    import common
+    if not common.wait_for_hyprland(90):
+        return
+    for item in read_enabled():
+        n, _, ex = item.partition(":")
+        if n in NAMES:
+            start(n, ex.split(",") if ex else ())
+
+
+def pick(tty):
+    lines = [f"{'●' if running(n) else '○'} {n}" for n in NAMES]
+    cmd = ["fzf", "--prompt=live> ", "--height=30%", "--reverse"] if tty else \
+        ["rofi", "-dmenu", "-i", "-p", "Live themes", "-theme-str", "window { width: 20em; }"]
+    r = subprocess.run(cmd, input="\n".join(lines), capture_output=True, text=True)
+    sel = r.stdout.strip().split(" ")[-1]
+    if sel in NAMES:
+        off(sel) if running(sel) else on(sel, [])
+
+
+def main():
+    a = sys.argv[1:]
+    extra = [x for x in a if x.startswith("--") and x != "--tty"]
+    a = [x for x in a if not x.startswith("--")]
+    cmd = a[0] if a else "pick"
+    if cmd in ("on", "off", "toggle") and len(a) > 1 and a[1] in NAMES:
+        n = a[1]
+        if cmd == "on" or (cmd == "toggle" and not running(n)):
+            on(n, extra)
+        else:
+            off(n)
+    elif cmd in ("status", "list"):
+        status()
+    elif cmd == "autostart":
+        autostart()
+    elif cmd == "off-all":
+        for n in NAMES:
+            stop(n)
+    elif cmd == "pick":
+        pick("--tty" in sys.argv)
+    else:
+        print(__doc__)
+        sys.exit(1)
+
+
+main()

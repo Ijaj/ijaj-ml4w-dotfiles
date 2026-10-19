@@ -89,6 +89,18 @@ if [ -d "$pm" ] && command -v cargo >/dev/null; then
     [ -x "$pm/target/release/promptmap" ] && ln -sf "$pm/target/release/promptmap" "$HOME/.local/bin/promptmap"
 fi
 
+# Textures (ml4w-texture): generated SVGs, linked next to the swaync/wlogout themes dirs so css can use url("../../textures/x.svg")
+if command -v ml4w-texture >/dev/null; then
+    ml4w-texture refresh >/dev/null 2>&1
+    for d in swaync wlogout; do
+        [ -d "$HOME/.config/$d" ] && [ "$(readlink "$HOME/.config/$d/textures")" != "$HOME/.local/share/ml4w-custom/textures" ] &&
+            ln -sfn "$HOME/.local/share/ml4w-custom/textures" "$HOME/.config/$d/textures"
+    done
+fi
+
+# live-accent.css: imported by the generated waybar styles; must exist (ml4w-live vital --bar fills it)
+[ -d "$HOME/.config/ml4w/settings" ] && [ -e "$HOME/.config/ml4w/settings/live-accent.css" ] || { [ -d "$HOME/.config/ml4w/settings" ] && : > "$HOME/.config/ml4w/settings/live-accent.css"; }
+
 # Waybar side override (ml4w-waybar-side): rebuild for new/updated themes
 if command -v ml4w-waybar-side >/dev/null && [ "$(ml4w-waybar-side refresh)" = changed ]; then
     waybar_changed=1

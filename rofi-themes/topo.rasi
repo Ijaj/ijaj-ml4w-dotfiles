@@ -1,0 +1,11 @@
+/* Topo: contour-map launcher. A generated topographic map (palette-colored) behind the list, plain rows on top. */
+* { font: "Fira Sans SemiBold 12"; }
+window { location: center; anchor: center; width: 42em; border: 2px; border-color: @primary; border-radius: 8px; background-color: @surface; }
+mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; padding: 0.8em; background-image: url("~/.local/share/ml4w-custom/textures/topo.svg", both); background-color: transparent; }
+inputbar { margin: 0 0 0.6em 0; padding: 0.2em 0.8em; border-radius: 6px; border: 1px; border-color: @primary; background-color: @surface-container; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { str: "⛰"; padding: 0.8em 0.5em 0 0; text-color: @primary; }
+entry { padding: 0.7em 0.2em; text-color: @on-surface; placeholder-color: @outline; }
+listview { lines: 8; columns: 1; spacing: 0.15em; padding: 0; fixed-height: false; background-color: transparent; }
+element { padding: 0.45em 0.8em; border-radius: 6px; background-color: transparent; }
+element selected.normal { background-color: @primary; text-color: @on-primary; border-radius: 6px; }
+element-icon { size: 1.7em; }

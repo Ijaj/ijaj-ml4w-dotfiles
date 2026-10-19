@@ -1,0 +1,13 @@
+/* Sumi: faint ink-wash cards, thin lines, wide breathing room */
+@import "../glass/style.css";
+
+window { background: @surface; background-image: url("../../textures/paper.svg"); }
+button {
+    border: 1px solid alpha(@on_surface, 0.3); border-radius: 2px; background-color: transparent; color: alpha(@on_surface, 0.8);
+    min-width: 120px;
+    min-height: 120px;
+    margin: 12px;
+    box-shadow: none;
+}
+button:focus { border-color: @tertiary; color: @on_surface; }
+button:hover { background-color: @tertiary; color: @on_tertiary; border-radius: 2px; margin: 12px; }

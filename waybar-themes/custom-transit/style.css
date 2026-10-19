@@ -1,0 +1,35 @@
+/* Transit: metro map. Workspaces are stations on a line; the active one is the interchange ring. */
+* { font-family: "Fira Sans Semibold", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", sans-serif; font-size: 13px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
+window#waybar { background: @surface; border-bottom: 4px solid @primary; }
+tooltip { background: @surface_container; border: 2px solid @primary; border-radius: 4px; }
+tooltip label { color: @on_surface; }
+
+label.module, #tray, #hardware, #tools {
+    color: @on_surface_variant; background: transparent;
+    padding: 0 11px; margin: 3px 0;
+    transition: color 0.15s ease;
+}
+label.module:hover { color: @on_surface; }
+#hardware label, #tools label { padding: 0 7px; }
+
+/* Line terminus: the app menu is the first stop, drawn as a filled badge */
+#custom-appmenu { background: @primary; color: @on_primary; border-radius: 0 14px 14px 0; padding: 0 14px 0 10px; margin: 3px 6px 3px 0; font-weight: bold; }
+
+/* The line runs behind the station dots */
+#workspaces { margin: 0 8px; }
+#workspaces button {
+    color: @primary; padding: 0 9px; margin: 0; font-size: 15px;
+    background-image: linear-gradient(to bottom, transparent 42%, @primary 42%, @primary 58%, transparent 58%);
+    background-color: transparent; border-radius: 0;
+    transition: color 0.15s ease;
+}
+#workspaces button.active { color: @tertiary; font-size: 19px; font-weight: bold; }
+#workspaces button.urgent { color: @error; }
+#workspaces button:hover { color: @on_surface; }
+#window { color: @on_surface_variant; padding-left: 8px; border-left: 2px solid @outline_variant; }
+#clock { color: @on_surface; font-weight: bold; }
+#custom-exit { color: @on_surface_variant; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#custom-updates.yellow { color: @tertiary; }
+#custom-updates.red, #battery.critical:not(.charging) { color: @error; }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@on_surface_variant, 0.45); }

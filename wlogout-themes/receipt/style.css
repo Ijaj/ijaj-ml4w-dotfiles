@@ -1,0 +1,13 @@
+/* Receipt: inverse-surface paper, dotted tear lines, no rounding */
+@import "../glass/style.css";
+
+window { background: @inverse_surface; background-image: none; }
+button {
+    border: 1px dotted @inverse_on_surface; border-radius: 0; background-color: @inverse_surface; color: @inverse_on_surface; font-family: "FiraCode Nerd Font Mono", monospace;
+    min-width: 120px;
+    min-height: 120px;
+    margin: 12px;
+    box-shadow: none;
+}
+button:focus { border-style: solid; border-color: @inverse_on_surface; }
+button:hover { background-color: @inverse_on_surface; color: @inverse_surface; border-radius: 0; margin: 12px; }

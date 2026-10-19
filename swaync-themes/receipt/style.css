@@ -1,0 +1,33 @@
+/* Receipt: inverse-surface paper, dotted tear lines, no rounding */
+@import "../glass/notifications.css";
+@import "../glass/control_center.css";
+
+.floating-notifications.background .notification-row .notification-background .notification,
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    background: @inverse_surface; background-image: none;
+    border: 1px dotted @inverse_on_surface; border-radius: 0; box-shadow: none;
+}
+.floating-notifications.background .notification-row .notification-background .notification.critical { border: 2px dotted @error; }
+.control-center {
+    background: @inverse_surface; background-image: none;
+    border: 1px dotted @inverse_on_surface; border-radius: 0; box-shadow: none; opacity: 1;
+}
+.widget-buttons-grid button { border-radius: 0; border: 1px solid @outline_variant; }
+.widget-buttons-grid button:hover, .widget-buttons-grid button.toggle:checked { border-radius: 0; }
+.widget-volume, .widget-backlight { border-radius: 0; background: @inverse_surface; }
+
+/* Cards listed inside the control center */
+.control-center .notification-row .notification-background .notification,
+.control-center .notification-row .notification-background .notification.critical {
+    background: @inverse_surface;
+    border: 1px solid @outline_variant;
+    border-radius: 0;
+    box-shadow: none;
+}
+.control-center .notification-row .notification-background .notification.critical { border-color: @error; }
+
+.floating-notifications .notification .summary, .floating-notifications .notification .body, .floating-notifications .notification .time,
+.floating-notifications .notification label, .control-center .notification .summary, .control-center .notification .body,
+.control-center .notification .time, .control-center .notification label { color: @inverse_on_surface; font-family: "FiraCode Nerd Font Mono", monospace; }
+.control-center, .control-center label, .widget-title, .widget-title label, .widget-dnd, .widget-dnd label { color: @inverse_on_surface; font-family: "FiraCode Nerd Font Mono", monospace; }
+.widget-buttons-grid button { color: @inverse_on_surface; }

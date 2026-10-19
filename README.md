@@ -18,6 +18,9 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 | `rofi-themes/` | Launcher styles: one per global theme (softglass, flat, cyber, retro, paper, pastel, brutal) plus spotlight, grid, fullscreen, sidebar, bar, terminal, minimal. Switch with `ml4w-rofi`. |
 | `prompts/` | 15 oh-my-posh prompt themes (palette from the wallpaper). Switch with `ml4w-prompt` (alias `prompt`). |
 | `tools/promptmap/` | Rust tool that re-colors any oh-my-posh theme (stock `shipped:*` and `edm115`) from the wallpaper palette. Built and linked by `ml4w-custom-sync`. |
+| `ml4w-themes/{blueprint,riso,transit,rackmount,receipt,sumi}/` (+ `-restore`) | 6 more global themes, each with its own waybar theme, notifications, logout screen, dock, rofi style, window look and matching prompt. See "New design languages" below. |
+| `tools/live/`, `bin/ml4w-live` | Reactive themes: **strata**, **vital**, **solar**, **modal** (small daemons). See "Live themes". |
+| `bin/ml4w-texture` | Generates palette-colored SVG textures (grid, halftone, paper, brushed, topo) used by the themes above |
 | `ml4w-themes/custom-lib.sh` | Shared apply/backup/restore code for the custom global themes |
 | `swaync-themes/`, `wlogout-themes/`, `dock-themes/` | Soft Glass parts. swaync and wlogout import ML4W's glass theme and only override shape and transparency. |
 | `hypr-decorations/`, `hypr-windows/` | Window look for each theme (Lua config) |
@@ -50,6 +53,38 @@ The settings from before are saved to `~/.local/state/ml4w-custom/pre-<theme>/` 
 To add another global theme: copy the `flat` entries in each folder, change the look, and write a small `theme.sh` that calls `cc_backup` and `cc_apply` from `custom-lib.sh`.
 
 Known limit: blur behind swaync notification popups does not show on this setup, so those cards use a mostly opaque background instead.
+
+## New design languages
+
+Same picker (`CTRL+ALT+T`), same `-restore` entries. Colors always come from the wallpaper.
+
+| Theme | Idea |
+|---|---|
+| `blueprint` | Technical drawing. Sheet-colored bar with dashed construction lines, `[1] [2]` workspaces, `SHEET 12:00 · date` clock, grid texture, `REV.A ▸ FIND` launcher, `FIG.` prompt. |
+| `riso` | Risograph print. Chips with two misregistered ink shadows (tertiary + secondary), hard offset window shadow, halftone texture, two-ink gradient borders. |
+| `transit` | Metro map. Workspaces are stations on a line, the active one is the interchange ring. Station-sign cards and launcher, prompt as stops on a line. |
+| `rackmount` | 1U hardware panel. Brushed-metal strip, a status LED per module (CSS radial gradients), screws at both ends, LCD clock, patch-panel launcher. |
+| `receipt` | Thermal printout. Inverse-surface "paper" everywhere, dotted tear lines, mono caps, narrow launcher, line-item prompt. |
+| `sumi` | Ink wash. Floating transparent bar, kanji numerals with a 印 stamp on the active workspace, wide gaps, no borders, inactive windows dimmed, slow fades, paper texture. |
+
+`ml4w-rofi topo` is an extra launcher style: a generated contour map behind the list.
+
+## Live themes (reactive)
+
+`ml4w-live` (alias `live`, `SUPER+CTRL+SHIFT+L`) turns small daemons on or off. Enabled ones start at login (`ml4w-live.service`), and turning one off restores the compositor state.
+
+| Name | What it does |
+|---|---|
+| `strata` | Focus-recency depth. The focused window is crisp; older ones step down in opacity and border tone along the palette. |
+| `vital` | Accent follows load: primary when calm, tertiary when busy, error when hot (CPU load, trusted temperature sensors, low battery). Recolors the border and any colored shadow. `ml4w-live on vital --bar` also tints the Waybar edge line (needs `ml4w-waybar-side` on a side, not `default`; the bar reloads at most twice a minute). |
+| `solar` | Screen temperature and gamma glide with the time of day through hyprsunset (starts it if it is not running). Optional `~/.config/ml4w/settings/solar.conf`: `sunrise=06:00 sunset=18:00 day_k=6500 night_k=3600 night_gamma=88 fade_minutes=90`. |
+| `modal` | The border shows the active Hyprland submap. Adds `SUPER+ALT+R` (resize mode) and `SUPER+ALT+M` (move mode) with arrows or hjkl, `Esc`/`Return` leaves. While a mode is active the border belongs to modal, so vital pauses. |
+
+Commands: `ml4w-live` (pick), `on|off|toggle <name>`, `status`.
+
+## Textures
+
+`ml4w-texture refresh` writes SVGs to `~/.local/share/ml4w-custom/textures/` in the current palette. The palette-change unit (`ml4w-prompt-refresh.path`) runs it after a wallpaper change, and the sync links the folder as `~/.config/swaync/textures` and `~/.config/wlogout/textures` so CSS can use `url("../../textures/grid.svg")`. Rofi cannot tile backgrounds, so it uses the `-wide` variants (stretched with `both`).
 
 ## Making changes
 

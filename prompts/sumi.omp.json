@@ -1,0 +1,73 @@
+{
+  "version": 4,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "path",
+          "style": "plain",
+          "template": "{{ .Path }}",
+          "foreground": "p:on_surface_variant",
+          "properties": {
+            "style": "folder",
+            "max_depth": 2,
+            "folder_separator_icon": "/"
+          }
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "template": "  {{ .HEAD }}{{ if or .Working.Changed .Staging.Changed }} ・{{ end }}",
+          "foreground": "p:tertiary",
+          "properties": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "branch_icon": " ",
+            "untracked_modes": {
+              "/": "no"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "template": "{{ .FormattedMs }}",
+          "foreground": "p:outline",
+          "properties": {
+            "threshold": 3000,
+            "style": "austin"
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "status",
+          "style": "plain",
+          "template": "印 ",
+          "foreground": "p:primary",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:error{{ end }}"
+          ],
+          "properties": {
+            "always_enabled": true
+          }
+        }
+      ]
+    }
+  ]
+}

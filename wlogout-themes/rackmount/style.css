@@ -1,0 +1,13 @@
+/* Rackmount: brushed-metal faceplate cards with a hard bevel */
+@import "../glass/style.css";
+
+window { background: @surface_container_lowest; background-image: url("../../textures/brushed.svg"); }
+button {
+    border: 1px solid @outline; border-bottom: 3px solid @surface_container_lowest; border-radius: 3px; background-color: @surface_container; background-image: linear-gradient(to bottom, @surface_container_high, @surface_container); color: @on_surface;
+    min-width: 120px;
+    min-height: 120px;
+    margin: 12px;
+    box-shadow: none;
+}
+button:focus { border-color: @primary; }
+button:hover { background-image: none; background-color: @primary; color: @on_primary; border-radius: 3px; margin: 12px; }

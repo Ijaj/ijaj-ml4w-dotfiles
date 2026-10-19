@@ -1,0 +1,27 @@
+/* Rackmount: brushed-metal faceplate cards with a hard bevel */
+@import "../glass/notifications.css";
+@import "../glass/control_center.css";
+
+.floating-notifications.background .notification-row .notification-background .notification,
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    background-color: @surface_container; background-image: url("../../textures/brushed.svg"), linear-gradient(to bottom, @surface_container_high, @surface_container 55%, @surface_container_low);
+    border: 1px solid @outline; border-top-color: @outline_variant; border-bottom: 2px solid @surface_container_lowest; border-radius: 3px; box-shadow: none;
+}
+.floating-notifications.background .notification-row .notification-background .notification.critical { border: 1px solid @error; border-bottom: 2px solid @error_container; }
+.control-center {
+    background-color: @surface_container; background-image: url("../../textures/brushed.svg"), linear-gradient(to bottom, @surface_container_high, @surface_container 40%, @surface_container_low);
+    border: 1px solid @outline; border-radius: 3px; box-shadow: none; opacity: 1;
+}
+.widget-buttons-grid button { border-radius: 2px; border: 1px solid @outline_variant; }
+.widget-buttons-grid button:hover, .widget-buttons-grid button.toggle:checked { border-radius: 2px; }
+.widget-volume, .widget-backlight { border-radius: 2px; background-color: @surface_container_lowest; background-image: none; }
+
+/* Cards listed inside the control center */
+.control-center .notification-row .notification-background .notification,
+.control-center .notification-row .notification-background .notification.critical {
+    background-color: @surface_container_lowest; background-image: none;
+    border: 1px solid @outline_variant;
+    border-radius: 2px;
+    box-shadow: none;
+}
+.control-center .notification-row .notification-background .notification.critical { border-color: @error; }

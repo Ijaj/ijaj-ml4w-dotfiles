@@ -1,0 +1,40 @@
+/* Rackmount: 1U hardware panel. Brushed-metal strip, LED per module, screws at both ends, LCD clock. */
+* { font-family: "FiraCode Nerd Font Mono", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", monospace; font-size: 12px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
+window#waybar {
+    background-image: linear-gradient(to bottom, @surface_container_highest 0%, @surface_container_high 18%, @surface_container 60%, @surface_container_low 100%);
+    border-top: 1px solid @outline; border-bottom: 2px solid @surface_container_lowest;
+}
+tooltip { background: @surface_container_high; border: 1px solid @outline; border-radius: 2px; }
+tooltip label { color: @on_surface; }
+
+/* Each module is a faceplate segment with a status LED on its left edge */
+label.module, #tray, #hardware, #tools {
+    color: @on_surface; background: transparent;
+    padding: 0 10px 0 22px; margin: 4px 0;
+    border-left: 1px solid alpha(@outline, 0.5); border-right: 1px solid alpha(@surface_container_lowest, 0.6);
+    background-image: radial-gradient(circle at 10px 50%, @primary 0px, @primary 2px, alpha(@primary, 0.25) 3px, transparent 5px);
+    transition: color 0.15s ease;
+}
+label.module:hover { color: @primary; }
+#hardware label, #tools label { padding: 0 6px; border: none; background-image: none; }
+#custom-appmenu, #custom-exit, #custom-notification, #tray, #custom-screwl, #custom-screwr { background-image: none; padding-left: 10px; }
+#custom-screwl, #custom-screwr { color: @outline; border: none; font-size: 15px; padding: 0 8px; margin: 0; }
+
+/* LEDs: green-ish tertiary when OK, error when bad, dim when off */
+#battery { background-image: radial-gradient(circle at 10px 50%, @tertiary 0px, @tertiary 2px, alpha(@tertiary, 0.25) 3px, transparent 5px); }
+#battery.critical:not(.charging) { color: @error; background-image: radial-gradient(circle at 10px 50%, @error 0px, @error 2px, alpha(@error, 0.3) 3px, transparent 5px); }
+#network { background-image: radial-gradient(circle at 10px 50%, @secondary 0px, @secondary 2px, alpha(@secondary, 0.25) 3px, transparent 5px); }
+#pulseaudio.muted, #bluetooth.off, #network.disconnected { color: alpha(@on_surface_variant, 0.45); background-image: radial-gradient(circle at 10px 50%, @outline 0px, @outline 2px, transparent 3px); }
+
+#workspaces { margin: 4px 6px; background: @surface_container_lowest; border: 1px solid @outline; border-radius: 2px; padding: 0 2px; }
+#workspaces button { color: alpha(@on_surface_variant, 0.7); background: transparent; padding: 0 8px; margin: 1px; border-radius: 1px; }
+#workspaces button.active { color: @on_primary; background: @primary; font-weight: bold; }
+#workspaces button.urgent { color: @on_error; background: @error; }
+#workspaces button:hover { color: @on_surface; }
+#window { color: alpha(@on_surface_variant, 0.85); background-image: none; border: none; padding-left: 8px; }
+
+/* LCD clock */
+#clock { background-image: none; background: @surface_container_lowest; color: @primary; border: 1px solid @outline; border-radius: 2px; padding: 0 12px; margin: 4px 0; font-weight: bold; letter-spacing: 1px; }
+#custom-notification { font-family: "Material Icons"; font-size: 15px; }
+#custom-updates.yellow { color: @tertiary; }
+#custom-updates.red { color: @error; }

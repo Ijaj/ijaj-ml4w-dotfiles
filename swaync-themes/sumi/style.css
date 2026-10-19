@@ -1,0 +1,27 @@
+/* Sumi: faint ink-wash cards, thin lines, wide breathing room */
+@import "../glass/notifications.css";
+@import "../glass/control_center.css";
+
+.floating-notifications.background .notification-row .notification-background .notification,
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+    background: alpha(@surface, 0.88); background-image: url("../../textures/paper.svg");
+    border: 1px solid alpha(@on_surface, 0.28); border-radius: 2px; box-shadow: none; padding: 6px;
+}
+.floating-notifications.background .notification-row .notification-background .notification.critical { border: 1px solid @tertiary; }
+.control-center {
+    background: alpha(@surface, 0.94); background-image: url("../../textures/paper.svg");
+    border: 1px solid alpha(@on_surface, 0.28); border-radius: 2px; box-shadow: none; opacity: 1;
+}
+.widget-buttons-grid button { border-radius: 2px; border: 1px solid @outline_variant; }
+.widget-buttons-grid button:hover, .widget-buttons-grid button.toggle:checked { border-radius: 2px; }
+.widget-volume, .widget-backlight { border-radius: 2px; background: alpha(@surface_container, 0.8); }
+
+/* Cards listed inside the control center */
+.control-center .notification-row .notification-background .notification,
+.control-center .notification-row .notification-background .notification.critical {
+    background: alpha(@surface_container, 0.8);
+    border: 1px solid @outline_variant;
+    border-radius: 2px;
+    box-shadow: none;
+}
+.control-center .notification-row .notification-background .notification.critical { border-color: @error; }

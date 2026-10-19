@@ -1,0 +1,11 @@
+/* Riso: thick primary frame, offset ink block behind (tertiary), selected row printed in secondary */
+* { font: "Fira Sans SemiBold 12"; }
+window { location: center; anchor: center; width: 40em; border: 3px; border-color: @primary; border-radius: 2px; background-color: @surface-container; }
+mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; padding: 0; background-image: url("~/.local/share/ml4w-custom/textures/halftone-wide.svg", both); background-color: transparent; }
+inputbar { margin: 0; padding: 0.3em 0.8em; border-radius: 0; border: 0 0 3px 0; border-color: @primary; background-color: @tertiary; children: [ "textbox-prompt-colon", "entry" ]; }
+textbox-prompt-colon { str: "◐"; padding: 0.8em 0.4em 0 0; text-color: @on-tertiary; }
+entry { padding: 0.7em 0.2em; text-color: @on-tertiary; placeholder-color: @on-tertiary; }
+listview { lines: 8; columns: 1; spacing: 0.2em; padding: 0.5em; fixed-height: false; background-color: transparent; }
+element { padding: 0.45em 0.8em; border-radius: 1px; border: 2px; border-color: transparent; }
+element selected.normal { background-color: @secondary; text-color: @on-secondary; border-radius: 1px; border: 2px; border-color: @primary; }
+element-icon { size: 1.7em; }

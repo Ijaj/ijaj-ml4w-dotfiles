@@ -1,0 +1,10 @@
+[Unit]
+Description=Start the enabled live themes (ml4w-live: strata, vital, solar, modal)
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/ml4w-live autostart
+
+[Install]
+WantedBy=default.target

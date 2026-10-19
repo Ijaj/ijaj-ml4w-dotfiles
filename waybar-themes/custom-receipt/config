@@ -1,0 +1,44 @@
+{
+    // General Settings
+    "layer": "top",
+    "height": 28,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
+    // Load Modules
+    "include": [
+        "~/.config/ml4w/settings/waybar-quicklinks.json",
+        "~/.config/waybar/modules.json"
+    ],
+    // Modules Left
+    "modules-left": [
+        "custom/appmenu",
+        "hyprland/workspaces",
+        //"wlr/taskbar",
+        //"group/quicklinks",
+        "hyprland/window"
+    ],
+    // Modules Center
+    "modules-center": [
+        "clock"
+    ],
+    // Modules Right
+    "modules-right": [
+        "custom/updates",
+        "pulseaudio",
+        //"backlight",
+        "bluetooth",
+        "network",
+        "battery",
+        "group/hardware",
+        "group/tools",
+        "tray",
+        "custom/notification",
+        "custom/exit"
+    ],
+    // Module overrides for this theme
+    "hyprland/workspaces": {"on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({workspace = 'e+1'})\"", "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({workspace = 'e-1'})\"", "on-click": "activate", "active-only": false, "all-outputs": true, "persistent-workspaces": {"*": 5}, "format": "{id}"},
+    "clock": {"format": "*** {:%H:%M  %a %d} ***", "on-click": "qs ipc call calendar toggle", "timezone": "", "tooltip": false}
+}

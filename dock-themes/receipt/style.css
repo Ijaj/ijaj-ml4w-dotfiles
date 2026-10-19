@@ -1,0 +1,10 @@
+/* Receipt: inverse-surface paper, dotted tear lines, no rounding */
+@import url("../../colors.css");
+
+window { padding: 6px; margin: 8px; background: @inverse_surface; border: 1px dotted @inverse_on_surface; border-radius: 0; }
+#box { padding: 4px; }
+#active { border-bottom: dotted 2px; border-color: @inverse_on_surface; }
+button, image { background: none; border-style: none; box-shadow: none; color: @on_surface; }
+button { padding: 4px; margin: 0 3px; font-size: 12px; }
+button:hover { background-color: alpha(@inverse_on_surface, 0.2); border-radius: 0; }
+button:focus { box-shadow: none; }

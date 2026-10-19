@@ -1,0 +1,13 @@
+/* Riso: two misregistered ink shadows, thick primary outline, tiny corners */
+@import "../glass/style.css";
+
+window { background: @surface; background-image: url("../../textures/halftone.svg"); }
+button {
+    border: 3px solid @primary; border-radius: 2px; background-color: @surface_container; color: @on_surface; box-shadow: 5px 5px 0 @tertiary, 9px 9px 0 alpha(@secondary, 0.7);
+    min-width: 120px;
+    min-height: 120px;
+    margin: 12px;
+    box-shadow: none;
+}
+button:focus { background-color: @surface_container_high; border-color: @primary; }
+button:hover { background-color: @primary; color: @on_primary; border-radius: 2px; box-shadow: 2px 2px 0 @tertiary; margin: 12px; }

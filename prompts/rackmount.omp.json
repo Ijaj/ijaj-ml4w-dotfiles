@@ -1,0 +1,116 @@
+{
+  "version": 4,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "▐",
+          "foreground": "p:outline"
+        },
+        {
+          "type": "status",
+          "style": "plain",
+          "template": "● ",
+          "foreground": "p:tertiary",
+          "properties": {
+            "always_enabled": true
+          },
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:error{{ end }}"
+          ]
+        },
+        {
+          "type": "session",
+          "style": "plain",
+          "template": "{{ .HostName }}",
+          "foreground": "p:primary"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "template": " ▏ ",
+          "foreground": "p:outline"
+        },
+        {
+          "type": "path",
+          "style": "plain",
+          "template": "{{ .Path }}",
+          "foreground": "p:on_surface",
+          "properties": {
+            "style": "folder",
+            "max_depth": 4,
+            "folder_separator_icon": "/"
+          }
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "template": " ▏ {{ .UpstreamIcon }}{{ .HEAD }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}",
+          "foreground": "p:tertiary",
+          "properties": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "branch_icon": " ",
+            "untracked_modes": {
+              "/": "no"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "template": " ▌",
+          "foreground": "p:outline"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "template": "{{ .FormattedMs }} ",
+          "foreground": "p:on_surface_variant",
+          "properties": {
+            "threshold": 2000,
+            "style": "austin"
+          }
+        },
+        {
+          "type": "time",
+          "style": "plain",
+          "template": "⏲ {{ .CurrentDate | date \"15:04:05\" }}",
+          "foreground": "p:primary",
+          "background": "p:surface_container_lowest"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "status",
+          "style": "plain",
+          "template": "▮ ",
+          "foreground": "p:primary",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:error{{ end }}"
+          ],
+          "properties": {
+            "always_enabled": true
+          }
+        }
+      ]
+    }
+  ]
+}
