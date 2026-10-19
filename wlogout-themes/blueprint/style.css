@@ -1,13 +1,13 @@
 /* Blueprint: sheet surface, dashed construction lines, square corners */
 @import "../glass/style.css";
 
-window { background: @surface; background-image: url("../../textures/grid.svg"); }
+window { background: alpha(@surface, 0.6); background-image: url("../../textures/grid.svg"); }
 button {
-    border: 1px dashed @primary; border-radius: 0; background-color: @surface; color: @on_surface;
+    border: 1px dashed @primary; border-radius: 0; background-color: alpha(@surface, 0.6); color: @on_surface;
     min-width: 120px;
     min-height: 120px;
     margin: 12px;
     box-shadow: none;
 }
-button:focus { background-color: @surface_container_high; border-color: @primary; border-style: solid; }
-button:hover { background-color: @primary; color: @on_primary; border-radius: 0; margin: 12px; }
+button:focus { background-color: alpha(@surface_container_high, 0.6); border-color: @primary; border-style: solid; }
+button:hover { background-color: alpha(@primary, 0.6); color: @on_primary; border-radius: 0; margin: 12px; }

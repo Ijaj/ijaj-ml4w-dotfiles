@@ -1,13 +1,13 @@
 /* Transit: line-colored left bar on every card, rounded like a station sign */
 @import "../glass/style.css";
 
-window { background: @surface; background-image: none; }
+window { background: alpha(@surface, 0.6); background-image: none; }
 button {
-    border: 1px solid @outline_variant; border-bottom: 8px solid @primary; border-radius: 10px; background-color: @surface_container; color: @on_surface;
+    border: 1px solid @outline_variant; border-bottom: 8px solid @primary; border-radius: 10px; background-color: alpha(@surface_container, 0.6); color: @on_surface;
     min-width: 120px;
     min-height: 120px;
     margin: 12px;
     box-shadow: none;
 }
-button:focus { background-color: @surface_container_high; border-bottom-color: @tertiary; }
-button:hover { background-color: @primary_container; color: @on_primary_container; border-radius: 10px; margin: 12px; }
+button:focus { background-color: alpha(@surface_container_high, 0.6); border-bottom-color: @tertiary; }
+button:hover { background-color: alpha(@primary_container, 0.6); color: @on_primary_container; border-radius: 10px; margin: 12px; }

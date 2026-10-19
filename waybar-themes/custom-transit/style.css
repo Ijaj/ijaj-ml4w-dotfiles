@@ -1,7 +1,7 @@
 /* Transit: metro map. Workspaces are stations on a line; the active one is the interchange ring. */
 * { font-family: "Fira Sans Semibold", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", sans-serif; font-size: 13px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
-window#waybar { background: @surface; border-bottom: 4px solid @primary; }
-tooltip { background: @surface_container; border: 2px solid @primary; border-radius: 4px; }
+window#waybar { background: alpha(@surface, 0.78); border-bottom: 4px solid @primary; }
+tooltip { background: alpha(@surface_container, 0.88); border: 2px solid @primary; border-radius: 4px; }
 tooltip label { color: @on_surface; }
 
 label.module, #tray, #hardware, #tools {

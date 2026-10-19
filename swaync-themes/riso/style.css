@@ -4,22 +4,22 @@
 
 .floating-notifications.background .notification-row .notification-background .notification,
 .floating-notifications.background .notification-row .notification-background .notification.critical {
-    background: @surface_container; background-image: url("../../textures/halftone.svg");
+    background: alpha(@surface_container, 0.9); background-image: url("../../textures/halftone.svg");
     border: 2px solid @primary; border-radius: 2px; box-shadow: 4px 4px 0 @tertiary, 7px 7px 0 alpha(@secondary, 0.7);
 }
 .floating-notifications.background .notification-row .notification-background .notification.critical { border: 2px solid @error; box-shadow: 4px 4px 0 @error_container, 7px 7px 0 alpha(@error, 0.5); }
 .control-center {
-    background: @surface; background-image: url("../../textures/halftone.svg");
+    background: alpha(@surface, 0.74); background-image: url("../../textures/halftone.svg");
     border: 2px solid @primary; border-radius: 2px; box-shadow: 5px 5px 0 @tertiary, 9px 9px 0 alpha(@secondary, 0.7); opacity: 1;
 }
 .widget-buttons-grid button { border-radius: 2px; border: 1px solid @outline_variant; }
 .widget-buttons-grid button:hover, .widget-buttons-grid button.toggle:checked { border-radius: 2px; }
-.widget-volume, .widget-backlight { border-radius: 2px; background: @surface_container; }
+.widget-volume, .widget-backlight { border-radius: 2px; background: alpha(@surface_container, 0.9); }
 
 /* Cards listed inside the control center */
 .control-center .notification-row .notification-background .notification,
 .control-center .notification-row .notification-background .notification.critical {
-    background: @surface_container;
+    background: alpha(@surface_container, 0.9);
     border: 1px solid @outline_variant;
     border-radius: 2px;
     box-shadow: none;

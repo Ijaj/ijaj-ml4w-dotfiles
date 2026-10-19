@@ -1,10 +1,10 @@
 /* Riso: two misregistered ink shadows, thick primary outline, tiny corners */
 @import url("../../colors.css");
 
-window { padding: 6px; margin: 8px; background: @surface_container; border: 2px solid @primary; border-radius: 2px; box-shadow: 3px 3px 0 @tertiary; }
+window { padding: 6px; margin: 8px; background: alpha(@surface_container, 0.78); border: 2px solid @primary; border-radius: 2px; box-shadow: 3px 3px 0 @tertiary; }
 #box { padding: 4px; }
 #active { border-bottom: solid 3px; border-color: @tertiary; }
 button, image { background: none; border-style: none; box-shadow: none; color: @on_surface; }
 button { padding: 4px; margin: 0 3px; font-size: 12px; }
-button:hover { background-color: @tertiary; border-radius: 2px; }
+button:hover { background-color: alpha(@tertiary, 0.78); border-radius: 2px; }
 button:focus { box-shadow: none; }

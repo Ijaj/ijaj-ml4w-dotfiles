@@ -1,20 +1,20 @@
 /* retro logout */
 @import "../glass/style.css";
 
-window { background: @background; background-image: none; }
+window { background: alpha(@background, 0.6); background-image: none; }
 button {
     border-radius: 0px;
     border: 2px solid @primary;
-    background-color: @background;
+    background-color: alpha(@background, 0.6);
     color: @primary;
     min-width: 120px;
     min-height: 120px;
     margin: 10px;
     box-shadow: none;
 }
-button:focus { background-color: @primary; color: @background; }
+button:focus { background-color: alpha(@primary, 0.6); color: @background; }
 button:hover {
-    background-color: @primary;
+    background-color: alpha(@primary, 0.6);
     color: @background;
     margin: 10px;
     border-radius: 0px;

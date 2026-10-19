@@ -10,7 +10,7 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 | `waybar-themes/` | Custom Waybar themes: Islands, Hairline, Neon, Capsule (2 variants each), Soft Glass, Flat. Colors follow the wallpaper (Matugen). |
 | `ml4w-themes/softglass/` | **Soft Glass**: a global ML4W theme (shows in the ML4W theme picker). Sets bar, notifications, logout screen, dock, launcher and window look in one go. |
 | `ml4w-themes/softglass-restore/` | Undoes Soft Glass, back to whatever was set before |
-| `ml4w-themes/flat/`, `flat-restore/` | **Flat**: solid and minimal. No blur or shadows, 6px corners, thin 1px lines, muted text with the accent only on the active workspace. |
+| `ml4w-themes/flat/`, `flat-restore/` | **Flat**: solid and minimal. No shadows, 6px corners, thin 1px lines, muted text with the accent only on the active workspace; light frosted blur behind the translucent bar and launcher. |
 | `ml4w-themes/cyber/`, `cyber-restore/` | **Cyber**: neon glow. Glowing accent outlines on bar, notifications, logout, dock and window shadow/borders. Accent follows the wallpaper. |
 | `ml4w-themes/retro/`, `paper/`, `pastel/`, `brutal/` (+ `-restore`) | **Retro**: terminal look, square, mono, accent text. **Paper**: calm, low contrast, soft shadows, serif clock. **Pastel**: floating pill bar, big radius, tinted chips. **Brutal**: thick borders, hard offset shadows, bold mono. All colors follow the wallpaper. |
 | `waybar-themes/custom-{underline,gradient,bottom,mac,blocks,tmux,sidebar,aurora}` | 8 more Waybar themes, each with 3 accent variants (primary, secondary, tertiary). |
@@ -70,7 +70,7 @@ The settings from before are saved to `~/.local/state/ml4w-custom/pre-<theme>/` 
 
 To add another global theme: copy the `flat` entries in each folder, change the look, and write a small `theme.sh` that calls `cc_backup` and `cc_apply` from `custom-lib.sh`.
 
-Known limit: blur behind swaync notification popups does not show on this setup, so those cards use a mostly opaque background instead.
+Blur: every global theme frosts the bar, launcher, control center, logout screen and dock (Hyprland `blur` plus layer rules, with translucent backgrounds). Windows only show blur if the app itself is translucent (for example kitty with `background_opacity`). Known limit: blur behind swaync notification popups does not show on this setup, so those cards stay mostly opaque (alpha 0.9).
 
 ## New design languages
 
@@ -148,7 +148,7 @@ Commands: `ml4w-live` (pick), `on|off|toggle <name>`, `status`.
 Prompt colors follow the wallpaper: `ml4w-prompt-refresh.path` watches the palette file Matugen rewrites and rebuilds `~/.config/ohmyposh/active.omp.json` with the new colors. Prompt themes use palette names (`p:primary`, `p:surface_container`, ...), never fixed colors. Stock themes go through `promptmap`: greys become palette neutrals, colors become accent slots (`pm0`, `pm1`, ...) whose hue is rotated onto the wallpaper's primary hue (reds onto the error hue), with lightness kept and fg/bg contrast re-checked on every palette change (about 2 ms).
 Terminal (kitty) colors already follow the wallpaper through Matugen's `colors-matugen.conf`.
 
-Rofi: `ml4w-custom-sync` makes sure `~/.config/rofi/config.rasi` imports `~/.config/ml4w/settings/rofi-theme.rasi`, which `ml4w-rofi` writes. Rofi has no alpha-on-theme-color syntax and no `height: auto`, so styles use solid theme colors.
+Rofi: `ml4w-custom-sync` makes sure `~/.config/rofi/config.rasi` imports `~/.config/ml4w/settings/rofi-theme.rasi`, which `ml4w-rofi` writes. Rofi has no alpha-on-theme-color syntax and no `height: auto`. Styles can write `alpha(@surface, 0.82)`: `ml4w-rofi` turns it into a literal `rgba()` from the wallpaper palette when it applies the style, and `ml4w-rofi refresh` (run by the palette-change unit) re-renders it after a wallpaper change.
 
 Applying a global theme also sets the rofi style of the same name, and its `-restore` entry puts back the previous one. `rofitheme` still works afterwards for a one-off change.
 

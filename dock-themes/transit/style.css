@@ -1,10 +1,10 @@
 /* Transit: line-colored left bar on every card, rounded like a station sign */
 @import url("../../colors.css");
 
-window { padding: 6px; margin: 8px; background: @surface; border: 2px solid @primary; border-radius: 14px; }
+window { padding: 6px; margin: 8px; background: alpha(@surface, 0.78); border: 2px solid @primary; border-radius: 14px; }
 #box { padding: 4px; }
 #active { border-bottom: solid 4px; border-color: @primary; }
 button, image { background: none; border-style: none; box-shadow: none; color: @on_surface; }
 button { padding: 4px; margin: 0 3px; font-size: 12px; }
-button:hover { background-color: @surface_container_high; border-radius: 10px; }
+button:hover { background-color: alpha(@surface_container_high, 0.78); border-radius: 10px; }
 button:focus { box-shadow: none; }

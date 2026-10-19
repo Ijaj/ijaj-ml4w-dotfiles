@@ -5,7 +5,7 @@ window { background: alpha(@surface_container_low, 0.96); background-image: none
 button {
     border-radius: 14px;
     border: 1px solid alpha(@on_surface, 0.12);
-    background-color: @surface_container_high;
+    background-color: alpha(@surface_container_high, 0.6);
     color: @on_surface;
     min-width: 120px;
     min-height: 120px;

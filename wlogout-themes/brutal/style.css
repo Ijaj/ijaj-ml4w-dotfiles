@@ -1,20 +1,20 @@
 /* brutal logout */
 @import "../glass/style.css";
 
-window { background: @background; background-image: none; }
+window { background: alpha(@background, 0.6); background-image: none; }
 button {
     border-radius: 0px;
     border: 3px solid @on_surface;
-    background-color: @surface;
+    background-color: alpha(@surface, 0.6);
     color: @on_surface;
     min-width: 120px;
     min-height: 120px;
     margin: 10px;
     box-shadow: 5px 5px 0 @on_surface;
 }
-button:focus { background-color: @primary; color: @on_primary; }
+button:focus { background-color: alpha(@primary, 0.6); color: @on_primary; }
 button:hover {
-    background-color: @primary;
+    background-color: alpha(@primary, 0.6);
     color: @on_primary;
     margin: 10px;
     border-radius: 0px;

@@ -1,10 +1,10 @@
 /* Rackmount: 1U hardware panel. Brushed-metal strip, LED per module, screws at both ends, LCD clock. */
 * { font-family: "FiraCode Nerd Font Mono", "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", monospace; font-size: 12px; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
 window#waybar {
-    background-image: linear-gradient(to bottom, @surface_container_highest 0%, @surface_container_high 18%, @surface_container 60%, @surface_container_low 100%);
+    background-image: linear-gradient(to bottom, alpha(@surface_container_highest, 0.8) 0%, alpha(@surface_container_high, 0.8) 18%, alpha(@surface_container, 0.8) 60%, alpha(@surface_container_low, 0.8) 100%);
     border-top: 1px solid @outline; border-bottom: 2px solid @surface_container_lowest;
 }
-tooltip { background: @surface_container_high; border: 1px solid @outline; border-radius: 2px; }
+tooltip { background: alpha(@surface_container_high, 0.88); border: 1px solid @outline; border-radius: 2px; }
 tooltip label { color: @on_surface; }
 
 /* Each module is a faceplate segment with a status LED on its left edge */

@@ -1,7 +1,7 @@
 /* Retro: terminal look. Monospace, square, accent text on a dark bar, bracketed workspaces. */
 * { font-family: "FiraCode Nerd Font Mono", "Font Awesome 7 Free", "Font Awesome 6 Free", FontAwesome, "Material Icons", monospace; font-size: 13px; border: none; border-radius: 0; min-height: 0; box-shadow: none; }
-window#waybar { background: @background; border-bottom: 2px solid @primary; }
-tooltip { background: @background; border: 2px solid @primary; border-radius: 0; }
+window#waybar { background: alpha(@background, 0.78); border-bottom: 2px solid @primary; }
+tooltip { background: alpha(@background, 0.88); border: 2px solid @primary; border-radius: 0; }
 tooltip label { color: @primary; }
 
 label.module, #tray, #hardware, #tools { color: @primary; background: transparent; padding: 0 10px; margin: 0; }

@@ -1,7 +1,7 @@
 /* Brutal: thick borders, square blocks, bold mono, high contrast. */
 * { font-family: "FiraCode Nerd Font", "Font Awesome 7 Free", "Font Awesome 6 Free", FontAwesome, "Material Icons", monospace; font-size: 13px; font-weight: bold; border: none; border-radius: 0; min-height: 0; box-shadow: none; text-shadow: none; }
-window#waybar { background: @background; border-bottom: 3px solid @on_surface; }
-tooltip { background: @surface; border: 3px solid @on_surface; border-radius: 0; }
+window#waybar { background: alpha(@background, 0.84); border-bottom: 3px solid @on_surface; }
+tooltip { background: alpha(@surface, 0.88); border: 3px solid @on_surface; border-radius: 0; }
 tooltip label { color: @on_surface; }
 
 label.module, #tray, #hardware, #tools { color: @on_surface; background: transparent; padding: 0 12px; margin: 0; border-left: 3px solid @on_surface; }

@@ -1,6 +1,6 @@
 /* Receipt: narrow thermal printout on inverse-surface paper, dotted rules, mono caps */
 * { font: "FiraCode Nerd Font Mono 11"; }
-window { location: center; anchor: center; width: 26em; border: 1px; border-color: @inverse-on-surface; border-radius: 0; background-color: @inverse-surface; }
+window { location: center; anchor: center; width: 26em; border: 1px; border-color: @inverse-on-surface; border-radius: 0; background-color: alpha(@inverse-surface, 0.82); }
 mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; padding: 0.8em; background-image: none; background-color: transparent; }
 inputbar { margin: 0 0 0.6em 0; padding: 0 0 0.4em 0; border-radius: 0; border: 0 0 2px 0; border-color: @inverse-on-surface; background-color: transparent; children: [ "textbox-prompt-colon", "entry" ]; }
 textbox-prompt-colon { str: "ITEM»"; padding: 0.8em 0.4em 0 0; text-color: @inverse-on-surface; }

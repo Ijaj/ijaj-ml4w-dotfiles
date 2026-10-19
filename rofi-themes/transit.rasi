@@ -1,6 +1,6 @@
 /* Transit: station-sign launcher. Header band in the line color, each entry has a stop dot, selected stop is the interchange */
 * { font: "Fira Sans SemiBold 12"; }
-window { location: center; anchor: center; width: 38em; border: 3px; border-color: @primary; border-radius: 14px; background-color: @surface; }
+window { location: center; anchor: center; width: 38em; border: 3px; border-color: @primary; border-radius: 14px; background-color: alpha(@surface, 0.82); }
 mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; padding: 0; background-image: none; background-color: transparent; }
 inputbar { margin: 0; padding: 0.3em 1em; border-radius: 11px 11px 0 0; border: 0; background-color: @primary; children: [ "textbox-prompt-colon", "entry" ]; }
 textbox-prompt-colon { str: "●━━"; padding: 0.8em 0.5em 0 0; text-color: @on-primary; }

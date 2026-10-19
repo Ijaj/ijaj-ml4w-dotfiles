@@ -1,6 +1,6 @@
 /* Brutal: thick borders, hard edges, bold type */
 * { font: "FiraCode Nerd Font Bold 11"; }
-window { location: center; anchor: center; width: 44em; border: 5px; border-color: @on-surface; border-radius: 0; background-color: @surface; }
+window { location: center; anchor: center; width: 44em; border: 5px; border-color: @on-surface; border-radius: 0; background-color: alpha(@surface, 0.82); }
 mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; background-image: none; background-color: transparent; }
 inputbar { margin: 0; padding: 0.4em 0.6em; border-radius: 0; border: 0 0 5px 0; border-color: @on-surface; background-color: @primary; children: [ "textbox-prompt-colon", "entry" ]; }
 textbox-prompt-colon { str: ">>"; padding: 0.8em 0.4em 0 0; text-color: @on-primary; }

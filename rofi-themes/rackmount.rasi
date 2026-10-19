@@ -1,6 +1,6 @@
 /* Rackmount: faceplate. Beveled frame, recessed LCD input, rows like patch-panel slots */
 * { font: "FiraCode Nerd Font Mono 11"; }
-window { location: center; anchor: center; width: 42em; border: 2px; border-color: @outline; border-radius: 3px; background-color: @surface-container; }
+window { location: center; anchor: center; width: 42em; border: 2px; border-color: @outline; border-radius: 3px; background-color: alpha(@surface-container, 0.82); }
 mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0.5em; padding: 0.6em; background-image: url("~/.local/share/ml4w-custom/textures/brushed-wide.svg", both); background-color: transparent; }
 inputbar { margin: 0; padding: 0.15em 0.7em; border-radius: 2px; border: 2px; border-color: @surface-container-lowest; background-color: @surface-container-lowest; children: [ "textbox-prompt-colon", "entry" ]; }
 textbox-prompt-colon { str: "▮ IN"; padding: 0.85em 0.6em 0 0; text-color: @primary; }

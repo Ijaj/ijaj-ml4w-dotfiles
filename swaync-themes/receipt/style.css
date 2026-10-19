@@ -4,22 +4,22 @@
 
 .floating-notifications.background .notification-row .notification-background .notification,
 .floating-notifications.background .notification-row .notification-background .notification.critical {
-    background: @inverse_surface; background-image: none;
+    background: alpha(@inverse_surface, 0.9); background-image: none;
     border: 1px dotted @inverse_on_surface; border-radius: 0; box-shadow: none;
 }
 .floating-notifications.background .notification-row .notification-background .notification.critical { border: 2px dotted @error; }
 .control-center {
-    background: @inverse_surface; background-image: none;
+    background: alpha(@inverse_surface, 0.74); background-image: none;
     border: 1px dotted @inverse_on_surface; border-radius: 0; box-shadow: none; opacity: 1;
 }
 .widget-buttons-grid button { border-radius: 0; border: 1px solid @outline_variant; }
 .widget-buttons-grid button:hover, .widget-buttons-grid button.toggle:checked { border-radius: 0; }
-.widget-volume, .widget-backlight { border-radius: 0; background: @inverse_surface; }
+.widget-volume, .widget-backlight { border-radius: 0; background: alpha(@inverse_surface, 0.9); }
 
 /* Cards listed inside the control center */
 .control-center .notification-row .notification-background .notification,
 .control-center .notification-row .notification-background .notification.critical {
-    background: @inverse_surface;
+    background: alpha(@inverse_surface, 0.9);
     border: 1px solid @outline_variant;
     border-radius: 0;
     box-shadow: none;

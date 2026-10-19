@@ -1,10 +1,10 @@
 /* Rackmount: brushed-metal faceplate cards with a hard bevel */
 @import url("../../colors.css");
 
-window { padding: 6px; margin: 8px; background-color: @surface_container; background-image: linear-gradient(to bottom, @surface_container_high, @surface_container_low); border: 1px solid @outline; border-radius: 3px; }
+window { padding: 6px; margin: 8px; background-color: alpha(@surface_container, 0.78); background-image: linear-gradient(to bottom, @surface_container_high, @surface_container_low); border: 1px solid @outline; border-radius: 3px; }
 #box { padding: 4px; }
 #active { border-bottom: solid 2px; border-color: @primary; }
 button, image { background: none; border-style: none; box-shadow: none; color: @on_surface; }
 button { padding: 4px; margin: 0 3px; font-size: 12px; }
-button:hover { background-color: @surface_container_highest; border-radius: 2px; }
+button:hover { background-color: alpha(@surface_container_highest, 0.78); border-radius: 2px; }
 button:focus { box-shadow: none; }

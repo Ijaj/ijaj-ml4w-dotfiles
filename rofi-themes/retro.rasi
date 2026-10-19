@@ -1,6 +1,6 @@
 /* Retro: terminal look, matches the Retro global theme */
 * { font: "FiraCode Nerd Font 11"; }
-window { location: center; anchor: center; width: 46em; border: 2px; border-color: @primary; border-radius: 0; background-color: @surface; }
+window { location: center; anchor: center; width: 46em; border: 2px; border-color: @primary; border-radius: 0; background-color: alpha(@surface, 0.82); }
 mainbox { orientation: vertical; children: [ "inputbar", "listview" ]; spacing: 0; background-image: none; background-color: transparent; }
 inputbar { margin: 0; padding: 0.3em 0.6em; border-radius: 0; border: 0 0 2px 0; border-color: @primary; background-color: transparent; children: [ "textbox-prompt-colon", "entry" ]; }
 textbox-prompt-colon { str: "$"; padding: 0.7em 0.4em 0 0; text-color: @primary; }

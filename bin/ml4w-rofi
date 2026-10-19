@@ -3,11 +3,30 @@
 #   ml4w-rofi               pick one (rofi menu, or fzf with --tty)
 #   ml4w-rofi <name> [--no-open]  apply a style and open the launcher to show it
 #   ml4w-rofi default       back to the ML4W look
-#   ml4w-rofi list | current
+#   ml4w-rofi list | current | refresh   (refresh: re-render after a wallpaper change)
 repo="$(dirname "$(dirname "$(readlink -f "$0")")")"
 dir="$repo/rofi-themes"
 out="$HOME/.config/ml4w/settings/rofi-theme.rasi"
 state="$HOME/.config/ml4w/settings/rofi-theme-name"
+
+# alpha(@name, 0.8) in a style becomes a literal rgba() of the current wallpaper palette
+# (rofi has no alpha-on-theme-color syntax, so this is what makes frosted windows follow the wallpaper)
+render() {
+    python3 - "$1" "$HOME/.config/waybar/colors.css" <<'PY'
+import re, sys
+src, colors = sys.argv[1:3]
+pal = {}
+for l in open(colors):
+    m = re.match(r"\s*@define-color ([a-z_0-9]+) #([0-9a-fA-F]{6});", l)
+    if m:
+        h = m.group(2)
+        pal[m.group(1)] = tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+def sub(m):
+    c = pal.get(m.group(1).replace("-", "_"))
+    return "rgba(%d, %d, %d, %s)" % (*c, m.group(2)) if c else m.group(0)
+print(re.sub(r"alpha\(@([a-z0-9-]+),\s*([0-9.]+)\)", sub, open(src).read()), end="")
+PY
+}
 
 names() { echo default; ls "$dir" | sed 's/\.rasi$//'; }
 current() { cat "$state" 2>/dev/null || echo default; }
@@ -23,13 +42,17 @@ pick)
     fi
     [ -n "$n" ] && exec "$0" "$n"
     ;;
+refresh)
+    # palette changed: re-render the active style (no-op for the default look)
+    n=$(current); [ "$n" = default ] || [ ! -f "$dir/$n.rasi" ] || render "$dir/$n.rasi" >"$out"
+    ;;
 default)
     echo '/* default ML4W look */' >"$out"; echo default >"$state"
     echo ":: rofi style: default"
     ;;
 *)
     [ -f "$dir/$1.rasi" ] || { echo "unknown style: $1" >&2; exit 1; }
-    cp "$dir/$1.rasi" "$out"; echo "$1" >"$state"
+    render "$dir/$1.rasi" >"$out"; echo "$1" >"$state"
     echo ":: rofi style: $1"
     [ "$2" = --no-open ] || { pkill rofi; setsid -f rofi -show drun -replace -i >/dev/null 2>&1; }
     ;;
