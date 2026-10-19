@@ -29,7 +29,24 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
 | `zshrc/custom/20-customization` | Overrides the ML4W file of the same name (oh-my-posh prompt choice) |
 | `bin/ml4w-custom-sync` | Puts everything above into place. Only touches what is missing or outdated. |
 | `systemd/` | User units that run the sync at login and whenever ML4W replaces its folders |
-| `install.sh` | One-shot setup |
+| `install.sh` | One-shot setup: links the tools into `~/.local/bin`, installs and enables the systemd units (sync, prompt/texture refresh, live themes autostart) and runs the sync |
+
+## Requirements
+
+These themes are built for a specific stack. Check it before installing:
+
+| Needed | Why |
+|---|---|
+| [ML4W dotfiles](https://github.com/mylinuxforwork/dotfiles), installed and working | Everything here is applied on top of it (`install.sh` stops if it is missing) |
+| Hyprland **0.55 or newer with the Lua config** (tested on 0.56.2) | Window looks are `.lua` files and live themes call `hyprctl eval`. The old `hyprland.conf` format and `hyprctl keyword` are not used |
+| `waybar`, `swaync`, `rofi` (2.x), `wlogout`, `nwg-dock-hyprland` | The parts being themed (all part of ML4W) |
+| `python3`, `jq`, `fzf`, `oh-my-posh` | The `ml4w-*` tools, prompts, pickers |
+| Fonts: `FiraCode Nerd Font`, `Fira Sans`, `Noto Sans/Serif CJK JP` | Type for the themes. Sumi needs Noto CJK for its kanji numerals and 印 stamp |
+| `grim` (optional) | Only for taking screenshots while developing |
+| `hyprsunset` (optional) | `ml4w-live` `solar` |
+| `cargo` (optional) | Builds `promptmap`, which re-colors stock oh-my-posh themes |
+
+On Arch, most of it is one line (names may differ slightly in the AUR): `sudo pacman -S python jq fzf rofi waybar wlogout otf-firacode-nerd ttf-fira-sans noto-fonts-cjk hyprsunset rust`.
 
 ## Setup after reinstalling Arch
 
@@ -41,6 +58,7 @@ They are kept outside the ML4W folder and re-applied automatically, so ML4W upda
    ./install.sh
    ```
 3. Pick a Waybar theme with `SUPER+CTRL+T` and open a new terminal.
+4. Try the new themes: see the quick start below.
 
 Keep the repo at `~/ijaj-ml4w-dotfiles` (or re-run `./install.sh` after moving it), since files are linked from it.
 
@@ -68,6 +86,16 @@ Same picker (`CTRL+ALT+T`), same `-restore` entries. Colors always come from the
 | `sumi` | Ink wash. Floating transparent bar, kanji numerals with a 印 stamp on the active workspace, wide gaps, no borders, inactive windows dimmed, slow fades, paper texture. |
 
 `ml4w-rofi topo` is an extra launcher style: a generated contour map behind the list.
+
+### Quick start: try the new themes
+
+1. Press `CTRL+ALT+T` and choose one of `blueprint`, `riso`, `transit`, `rackmount`, `receipt`, `sumi` (or `softglass`, `flat`, ...). It switches the bar, notifications, logout screen, dock, launcher and window look together.
+2. Choose the matching `-restore` entry (for example `blueprint-restore`) to go back to what you had.
+3. Match your shell prompt with `prompt blueprint` (same names), and try `rofitheme topo` for the contour-map launcher.
+4. Turn on a live theme: `ml4w-live on strata` (or `vital`, `solar`, `modal`), or press `SUPER+CTRL+SHIFT+L` for a picker. `ml4w-live status` shows what runs. `modal` only shows something while you are in a mode: press `SUPER+ALT+R` (resize) or `SUPER+ALT+M` (move), `Esc` leaves.
+5. `vital --bar` needs a Waybar side: run `ml4w-waybar-side top` once (see the section below).
+
+If the bar looks wrong after switching, or something fails, run `ml4w-custom-sync` once and check `hyprctl configerrors`.
 
 ## Live themes (reactive)
 
@@ -128,3 +156,16 @@ Applying a global theme also sets the rofi style of the same name, and its `-res
 
 `ml4w-waybar-side` (alias for the menu: run it with no arguments) puts every Waybar theme on `top`, `bottom`, `left` or `right`; `default` removes it. It uses ML4W's own `config-custom` / `style-custom.css` hooks, so no ML4W file is edited. Left/right drop the wide modules (window title, quicklinks, hardware/tools groups, bluetooth, updates) and show a stacked clock. Edge borders and chip spacing are flipped automatically, but themes drawn for a horizontal bar can look a bit tight vertically.
 If you change a module toggle in the ML4W settings app, the sync unit regenerates the overrides (the bar restarts once).
+
+## Uninstall
+
+1. Go back to your old look: apply the `-restore` entry of the global theme you used (`CTRL+ALT+T`), and `ml4w-rofi default`.
+2. Stop the live themes and the units:
+   ```sh
+   ml4w-live off-all; rm -f ~/.config/ml4w/settings/live-enabled
+   systemctl --user disable --now ml4w-custom-sync.path ml4w-prompt-refresh.path ml4w-live.service ml4w-custom-sync.service
+   rm ~/.config/systemd/user/ml4w-{custom-sync,prompt-refresh,live}.{path,service} 2>/dev/null; systemctl --user daemon-reload
+   ```
+3. Remove the tools: `rm ~/.local/bin/ml4w-{custom-sync,prompt,toast,rofi,waybar-side,live,texture} ~/.local/bin/promptmap`, the `require("ml4w-custom-binds")` line in `~/.config/hypr/custom.lua`, and the link `~/.config/hypr/ml4w-custom-binds.lua`.
+4. Delete the theme copies the sync made: the folders from this repo inside `~/.config/waybar/themes/`, `~/.config/swaync/themes/`, `~/.config/wlogout/themes/`, `~/.config/nwg-dock-hyprland/themes/`, `~/.config/ml4w/themes/`, `~/.config/hypr/conf/{decorations,windows}/`, plus `~/.config/{swaync,wlogout}/textures` and `~/.local/share/ml4w-custom/`.
+5. Optionally remove the repo clone. The zsh files are symlinks into it, so restore the originals from `~/.local/state/ml4w-custom/backups/` first.
